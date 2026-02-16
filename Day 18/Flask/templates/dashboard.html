@@ -12,7 +12,7 @@
             <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
               <div>
                 <h1 class="h3 mb-1">Dashboard</h1>
-                <p class="text-body-secondary mb-0">Welcome, {{ name }} And Your Profession: {{ profession }}</p>
+                <p class="text-body-secondary mb-0">Welcome, {{ name }}  {{ profession }}</p>
                 {% if session.get('user_email') %}
                   <div class="small text-body-secondary mt-1">Signed in as <strong>{{ session.get('user_email') }}</strong></div>
                 {% endif %}
