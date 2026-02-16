@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+  <div class="card mb-4" style="width: 18rem;">
+    <img src="{{ url_for('static', filename='images/Console Game.png') }}"
+       class="card-img-top"
+       alt="Market Image"
+       style="height: 120px; width: auto; display: block; margin: 0 auto;">
+    <div class="card-body">
+      <p class="card-text">Welcome to the Market! Here you can buy and sell items.</p>
+    </div>
+  </div>
+  <h1>Market</h1>
+
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 16px;
+      line-height: 1.6;
+      background-color: #333;
+    }
+    h1, h2, h3 {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Heading 1</h1>
+  <h2>Heading 2</h2>
+  <h3>Heading 3</h3>
+
+
+  <div style="max-width: 900px; margin: 16px 0; color: aliceblue;">
+    <label for="ytUrl">YouTube URL:</label>
+    <input
+      id="ytUrl"
+      type="url"
+      placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      style="width: 100%; padding: 8px; margin: 8px 0; color: aliceblue; background-color: #b1b1b1; border: 1px solid #ffffff;"
+    />
+    <button id="loadBtn" type="button">Load video</button>
+
+    <div style="margin-top: 12px; position: relative; color: aliceblue; padding-top: 56.25%;">
+      <iframe
+        id="player"
+        title="YouTube video player"
+        style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById('ytUrl');
+    const btn = document.getElementById('loadBtn');
+    const iframe = document.getElementById('player');
+
+    function getYouTubeId(url) {
+      try {
+        const u = new URL(url);
+        if (u.hostname === 'youtu.be') return u.pathname.slice(1);
+
+        if (u.hostname.includes('youtube.com')) {
+          if (u.pathname === '/watch') return u.searchParams.get('v');
+          if (u.pathname.startsWith('/embed/')) return u.pathname.split('/')[2];
+          if (u.pathname.startsWith('/shorts/')) return u.pathname.split('/')[2];
+        }
+      } catch {}
+      return null;
+    }
+
+    function loadVideo() {
+      const id = getYouTubeId(input.value.trim());
+      if (!id) {
+        alert('Paste a valid YouTube link.');
+        return;
+      }
+      iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(id)}`;
+    }
+
+    btn.addEventListener('click', loadVideo);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') loadVideo();
+    });
+  </script>
+</body>
+</html>

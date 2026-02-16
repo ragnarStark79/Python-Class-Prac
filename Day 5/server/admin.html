@@ -1,0 +1,886 @@
+<!-- Upgraded Admin Dashboard (single-file HTML with advanced layout + animations) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <meta name="description" content="Advanced admin dashboard page with multiple sections and animations." />
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel-2: rgba(255, 255, 255, 0.09);
+      --text: #eaf0ff;
+      --muted: rgba(234, 240, 255, 0.72);
+      --brand: #7c5cff;
+      --brand-2: #00d4ff;
+      --ok: #2ee59d;
+      --warn: #ffcc66;
+      --bad: #ff5c7a;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --border: 1px solid rgba(255, 255, 255, 0.10);
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+
+    /* Light theme overrides */
+    :root[data-theme="light"] {
+      --bg: #f5f8ff;
+      --panel: rgba(0, 0, 0, 0.05);
+      --panel-2: rgba(0, 0, 0, 0.08);
+      --text: #10162a;
+      --muted: rgba(16, 22, 42, 0.70);
+      --shadow: 0 20px 60px rgba(16, 22, 42, 0.14);
+      --border: 1px solid rgba(16, 22, 42, 0.12);
+    }
+
+    /* Make blobs a bit calmer in light mode */
+    :root[data-theme="light"] .blob { opacity: 0.35; }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 900px at 20% 10%, rgba(124, 92, 255, 0.25), transparent 55%),
+        radial-gradient(1000px 700px at 80% 20%, rgba(0, 212, 255, 0.20), transparent 55%),
+        radial-gradient(900px 800px at 65% 85%, rgba(46, 229, 157, 0.12), transparent 55%),
+        var(--bg);
+      overflow-x: hidden;
+    }
+
+    /* animated background blobs */
+    .bg { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    .blob {
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: 0.55;
+      mix-blend-mode: screen;
+      animation: float 12s ease-in-out infinite;
+      transform: translate3d(0, 0, 0);
+    }
+    .blob.one {
+      left: -140px; top: -160px;
+      background: radial-gradient(circle at 30% 30%, rgba(124, 92, 255, 0.95), rgba(124, 92, 255, 0.0) 60%);
+      animation-duration: 14s;
+    }
+    .blob.two {
+      right: -220px; top: 40px;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.90), rgba(0, 212, 255, 0.0) 60%);
+      animation-duration: 16s;
+      animation-delay: -3s;
+    }
+    .blob.three {
+      left: 20%; bottom: -260px;
+      background: radial-gradient(circle at 30% 30%, rgba(46, 229, 157, 0.95), rgba(46, 229, 157, 0.0) 60%);
+      animation-duration: 18s;
+      animation-delay: -6s;
+    }
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(22px, -18px) scale(1.06); }
+      100% { transform: translate(0, 0) scale(1); }
+    }
+
+    /* layout */
+    .app { position: relative; z-index: 1; min-height: 100vh; display: grid; grid-template-columns: 280px 1fr; }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 18px;
+      border-right: var(--border);
+      background: linear-gradient(180deg, rgba(255, 255,  255, 0.06), rgba(255, 255, 255, 0.02));
+      backdrop-filter: blur(10px);
+    }
+
+    :root[data-theme="light"] aside {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.45));
+    }
+
+    .brand {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      animation: pop 700ms cubic-bezier(.2, .9, .2, 1) both;
+    }
+    .brand-mark {
+      width: 40px; height: 40px; border-radius: 12px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 45%),
+        linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 15px 35px rgba(124, 92, 255, 0.35);
+    }
+    .brand h2 { margin: 0; font-size: 14px; letter-spacing: 0.6px; text-transform: uppercase; }
+    .brand p { margin: 2px 0 0; font-size: 12px; color: var(--muted); }
+
+    nav { margin-top: 18px; display: grid; gap: 10px; }
+    .nav-title { padding: 10px 12px 6px; font-size: 12px; color: rgba(234, 240, 255, 0.55); letter-spacing: 0.7px; text-transform: uppercase; }
+    :root[data-theme="light"] .nav-title { color: rgba(16, 22, 42, 0.55); }
+    .nav a {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      text-decoration: none; color: var(--text);
+      padding: 12px 12px; border-radius: 14px;
+      border: var(--border); background: rgba(255, 255, 255, 0.04);
+      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+    }
+    .nav a:hover { transform: translateY(-1px); border-color: rgba(255, 255, 255, 0.22); background: rgba(255, 255, 255, 0.07); }
+
+    .badge {
+      font-size: 12px; padding: 4px 10px; border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--muted); background: rgba(0, 0, 0, 0.18);
+    }
+    :root[data-theme="light"] .badge {
+      background: rgba(255, 255, 255, 0.7);
+      border-color: rgba(16, 22, 42, 0.12);
+    }
+
+    .side-footer {
+      position: absolute; left: 18px; right: 18px; bottom: 18px;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: var(--border);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .side-footer .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 10px; border-radius: 999px;
+      background: rgba(124, 92, 255, 0.12);
+      border: 1px solid rgba(124, 92, 255, 0.28);
+      color: var(--text); font-size: 12px;
+    }
+
+    main { padding: 26px 26px 60px; }
+
+    header { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+    .headline { max-width: 860px; animation: slideIn 700ms cubic-bezier(.2, .9, .2, 1) both; animation-delay: 120ms; }
+    .headline h1 { margin: 0; font-size: clamp(22px, 3vw, 34px); letter-spacing: -0.6px; }
+    .headline p { margin: 10px 0 0; color: var(--muted); line-height: 1.55; max-width: 70ch; }
+
+    .top-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+
+    .btn {
+      border: var(--border);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    .btn:hover { transform: translateY(-1px); background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.22); }
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.95), rgba(0, 212, 255,  0.70));
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 18px 45px rgba(124, 92, 255, 0.25);
+    }
+
+    /* Theme toggle */
+    .toggle {
+      display: inline-flex;
+      gap: 6px;
+      padding: 6px;
+      border-radius: 999px;
+      border: var(--border);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .toggle button {
+      border: 0;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 700;
+      transition: background 150ms ease, color 150ms ease;
+    }
+    .toggle button[aria-pressed="true"] {
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--text);
+    }
+
+    /* grid/cards */
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; margin-top: 14px; }
+
+    .card {
+      grid-column: span 12;
+      border: var(--border);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      overflow: hidden;
+      position: relative;
+      animation: fadeUp 700ms cubic-bezier(.2, .9, .2, 1) both;
+    }
+    :root[data-theme="light"] .card { background: rgba(255, 255, 255, 0.65); }
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: -120px -120px auto auto;
+      width: 280px;
+      height: 280px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0) 60%);
+      transform: rotate(18deg);
+      pointer-events: none;
+    }
+    .card h3 { margin: 0 0 10px; font-size: 15px; letter-spacing: 0.2px; }
+    .card p { margin: 0; color: var(--muted); line-height: 1.55; }
+
+    .kpis { display: grid; grid-template-columns: repeat(12, 1fr); gap: 12px; margin-top: 12px; }
+    .kpi {
+      grid-column: span 12;
+      padding: 14px;
+      border-radius: var(--radius);
+      border: var(--border);
+      background: rgba(0, 0, 0, 0.18);
+      position: relative;
+      overflow: hidden;
+    }
+    :root[data-theme="light"] .kpi { background: rgba(16, 22, 42, 0.05); }
+    .kpi .label { color: rgba(234, 240, 255, 0.66); font-size: 12px; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 8px; }
+    .kpi .value { font-size: 26px; font-weight: 800; letter-spacing: -0.4px; }
+    .kpi .meta { margin-top: 8px; font-size: 12px; color: rgba(234, 240, 255, 0.72); }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+    }
+    :root[data-theme="light"] .pill {
+      border-color: rgba(16, 22, 42, 0.12);
+      background: rgba(255, 255, 255, 0.7);
+    }
+    .dot { width: 8px; height: 8px; border-radius: 999px; background: var(--ok); box-shadow: 0 0 0 6px rgba(46, 229, 157, 0.18); }
+    .dot.warn { background: var(--warn); box-shadow: 0 0 0 6px rgba(255, 204, 102, 0.18); }
+    .dot.bad { background: var(--bad); box-shadow: 0 0 0 6px rgba(255, 92, 122, 0.16); }
+
+    .table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .table th, .table td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+      font-size: 13px;
+      color: rgba(234, 240, 255, 0.88);
+    }
+    :root[data-theme="light"] .table th,
+    :root[data-theme="light"] .table td {
+      border-bottom-color: rgba(16, 22, 42, 0.10);
+      color: rgba(16, 22, 42, 0.88);
+    }
+    .table th {
+      color: rgba(234, 240, 255, 0.62);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    :root[data-theme="light"] .table th { color: rgba(16, 22, 42, 0.60); }
+    .table tr:hover td { background: rgba(255, 255, 255, 0.03); }
+    :root[data-theme="light"] .table tr:hover td { background: rgba(16, 22, 42, 0.03); }
+
+    /* Charts */
+    .chart {
+      width: 100%;
+      height: 200px;
+      border-radius: 14px;
+      border: var(--border);
+      background: rgba(0, 0, 0, 0.12);
+      display: block;
+      margin-top: 12px;
+    }
+    :root[data-theme="light"] .chart { background: rgba(255, 255, 255, 0.75); }
+
+    /* Toasts */
+    .toasts {
+      position: fixed;
+      right: 14px;
+      bottom: 14px;
+      display: grid;
+      gap: 10px;
+      z-index: 50;
+    }
+    .toast {
+      width: min(380px, calc(100vw - 28px));
+      border-radius: 16px;
+      border: var(--border);
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      padding: 12px;
+      animation: toastIn 180ms ease-out both;
+    }
+    :root[data-theme="light"] .toast { background: rgba(255, 255, 255, 0.85); }
+    .toast .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .toast strong { font-size: 13px; }
+    .toast p { margin: 6px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .toast .x {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      padding: 6px 8px;
+      border-radius: 10px;
+    }
+    .toast .x:hover { background: rgba(255, 255, 255, 0.10); color: var(--text); }
+    .toast.ok { border-color: rgba(46, 229, 157, 0.35); }
+    .toast.warn { border-color: rgba(255, 204, 102, 0.35); }
+    .toast.bad { border-color: rgba(255, 92, 122, 0.35); }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes toastOut { to { opacity: 0; transform: translateY(10px); } }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 60;
+      padding: 18px;
+    }
+    .modal-backdrop[aria-hidden="false"] { display: flex; }
+    .modal {
+      width: min(560px, 100%);
+      border-radius: 18px;
+      border: var(--border);
+      background: rgba(0, 0, 0, 0.38);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      animation: fadeUp 220ms ease-out both;
+    }
+    :root[data-theme="light"] .modal { background: rgba(255, 255, 255, 0.92); }
+    .modal header {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .modal h4 { margin: 0; font-size: 14px; letter-spacing: 0.2px; }
+    .modal .content { margin-top: 10px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+    .modal .actions { margin-top: 14px; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
+
+    /* animations */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-18px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes pop { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+
+    /* responsive */
+    @media (min-width: 860px) {
+      .card.span-7 { grid-column: span 7; }
+      .card.span-5 { grid-column: span 5; }
+      .card.span-6 { grid-column: span 6; }
+      .kpi { grid-column: span 4; }
+    }
+    @media (max-width: 860px) {
+      .app { grid-template-columns: 1fr; }
+      aside { height: auto; position: relative; }
+      .side-footer { position: relative; left: auto; right: auto; bottom: auto; margin-top: 12px; }
+      header { flex-direction: column; align-items: stretch; }
+      .top-actions { justify-content: flex-start; }
+    }
+
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .blob, .card, .headline, .brand, .toast, .modal { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true">
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+    <div class="blob three"></div>
+  </div>
+
+  <div class="app">
+    <aside>
+      <div class="brand" role="banner">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>
+          <h2>Admin Console</h2>
+          <p>Signed in: <strong>Tom</strong></p>
+        </div>
+      </div>
+
+      <div class="nav-title">Navigation</div>
+      <nav class="nav" aria-label="Admin navigation">
+        <a href="#overview"><span>Overview</span><span class="badge">Live</span></a>
+        <a href="#analytics"><span>Analytics</span><span class="badge">Charts</span></a>
+        <a href="#users"><span>Users</span><span class="badge">12</span></a>
+        <a href="#activity"><span>Activity</span><span class="badge">5</span></a>
+        <a href="#settings"><span>Settings</span><span class="badge">New</span></a>
+      </nav>
+
+      <div class="side-footer">
+        <div class="chip"><span aria-hidden="true">👑</span><span>Admin access enabled</span></div>
+        <p style="margin:10px 0 0;color:var(--muted);font-size:12px;line-height:1.45;">Tip: Use the Quick Actions to simulate common tasks.</p>
+      </div>
+    </aside>
+
+    <main>
+      <header>
+        <div class="headline">
+          <h1>Welcome, Admin Tom</h1>
+          <p>Manage users, monitor system status, and review recent activity. This page is a front-end demo (no backend actions are performed).</p>
+        </div>
+
+        <div class="top-actions" aria-label="Quick actions">
+          <div class="toggle" role="group" aria-label="Theme toggle">
+            <button type="button" id="themeDark" aria-pressed="true">Dark</button>
+            <button type="button" id="themeLight" aria-pressed="false">Light</button>
+          </div>
+          <button class="btn" type="button" id="btnRefresh">Refresh Metrics</button>
+          <button class="btn" type="button" id="btnExport">Export Report</button>
+          <button class="btn" type="button" id="btnOpenModal">Open Modal</button>
+          <button class="btn primary" type="button" id="btnLockdown">Enable Lockdown</button>
+        </div>
+      </header>
+
+      <section id="overview" class="grid" aria-label="Overview section">
+        <div class="card span-7" style="animation-delay: 60ms;">
+          <h3>System Status</h3>
+          <p>Current health indicators for the application. Values below are sample data.</p>
+
+          <div class="kpis" role="list">
+            <div class="kpi" role="listitem">
+              <div class="label">Requests (last hour)</div>
+              <div class="value" data-count="1246">0</div>
+              <div class="meta"><span class="pill"><span class="dot"></span> Normal</span></div>
+            </div>
+            <div class="kpi" role="listitem">
+              <div class="label">Active sessions</div>
+              <div class="value" data-count="318">0</div>
+              <div class="meta"><span class="pill"><span class="dot warn"></span> Elevated</span></div>
+            </div>
+            <div class="kpi" role="listitem">
+              <div class="label">Failed logins</div>
+              <div class="value" data-count="7">0</div>
+              <div class="meta"><span class="pill"><span class="dot bad"></span> Watch</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card span-5" style="animation-delay: 120ms;">
+          <h3>Admin Profile</h3>
+          <p>
+            Role: <strong>Administrator</strong><br />
+            Permissions: Users • Content • System • Logs<br />
+            Session: <span class="pill"><span class="dot"></span> Active</span>
+          </p>
+          <div style="margin-top:12px;display:grid;gap:10px;">
+            <div class="pill">Last login: <strong>Today</strong></div>
+            <div class="pill">2FA: <strong>Enabled</strong></div>
+            <div class="pill">Region: <strong>Localhost</strong></div>
+          </div>
+        </div>
+
+        <div class="card span-6" id="users" style="animation-delay: 180ms;">
+          <h3>User Management</h3>
+          <p>Quick view of recent users. Replace these with real data from your server.</p>
+
+          <table class="table" aria-label="Recent users">
+            <thead>
+              <tr><th>User</th><th>Role</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>alice</td><td>editor</td><td><span class="pill"><span class="dot"></span> active</span></td></tr>
+              <tr><td>bob</td><td>viewer</td><td><span class="pill"><span class="dot warn"></span> pending</span></td></tr>
+              <tr><td>charlie</td><td>admin</td><td><span class="pill"><span class="dot"></span> active</span></td></tr>
+            </tbody>
+          </table>
+
+          <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn" type="button" id="btnAddUser">Add User</button>
+            <button class="btn" type="button" id="btnDisableUser">Disable Selected</button>
+          </div>
+        </div>
+
+        <div class="card span-6" id="activity" style="animation-delay: 240ms;">
+          <h3>Recent Activity</h3>
+          <p>Sample audit log feed for display purposes.</p>
+          <div style="display:grid;gap:10px;margin-top:10px;">
+            <div class="pill">10:12 — Updated homepage banner</div>
+            <div class="pill">09:47 — Reset password for user <strong>bob</strong></div>
+            <div class="pill">09:05 — Enabled 2FA enforcement</div>
+            <div class="pill">08:31 — Created user <strong>alice</strong></div>
+          </div>
+        </div>
+
+        <div class="card span-12" id="analytics" style="animation-delay: 150ms;">
+          <h3>Analytics</h3>
+          <p>Lightweight demo charts rendered with Canvas (no external libraries).</p>
+          <canvas class="chart" id="chartRequests" aria-label="Requests chart"></canvas>
+          <canvas class="chart" id="chartErrors" aria-label="Errors chart"></canvas>
+        </div>
+
+        <div class="card span-12" id="settings" style="animation-delay: 300ms;">
+          <h3>Settings</h3>
+          <p>Demo toggles (front-end only). Use these as placeholders for real config endpoints.</p>
+
+          <div style="display:grid;gap:12px;margin-top:12px;grid-template-columns: repeat(12, 1fr);">
+            <label class="pill" style="grid-column: span 12; cursor:pointer;">
+              <input type="checkbox" id="toggleMaintenance" style="accent-color: var(--brand);" />
+              Maintenance mode
+            </label>
+            <label class="pill" style="grid-column: span 12; cursor:pointer;">
+              <input type="checkbox" id="toggleVerbose" style="accent-color: var(--brand-2);" />
+              Verbose logging
+            </label>
+            <label class="pill" style="grid-column: span 12; cursor:pointer;">
+              <input type="checkbox" id="toggleAlerts" checked style="accent-color: var(--ok);" />
+              Security alerts
+            </label>
+          </div>
+
+          <p id="statusLine" style="margin-top:14px;color:var(--muted);font-size:13px;">Status: Ready.</p>
+        </div>
+      </section>
+
+      <footer style="margin-top: 18px; color: rgba(234,240,255,0.55); font-size: 12px;">
+        <span>© <span id="year"></span> Admin Console</span>
+        <span style="margin-left:10px;">•</span>
+        <span style="margin-left:10px;">Demo UI for Day 4 server</span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite" aria-relevant="additions"></div>
+
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <header>
+        <h4 id="modalTitle">Confirm action</h4>
+        <button class="btn" type="button" id="btnModalClose" aria-label="Close modal">Close</button>
+      </header>
+      <div class="content" id="modalBody">This is a demo modal. Use it for confirmations or editing forms.</div>
+      <div class="actions">
+        <button class="btn" type="button" id="btnModalCancel">Cancel</button>
+        <button class="btn primary" type="button" id="btnModalConfirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelectorAll(sel);
+
+    const prefersReduced = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    // Theme
+    function setTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      localStorage.setItem('adminTheme', theme);
+      $('#themeDark')?.setAttribute('aria-pressed', String(theme === 'dark'));
+      $('#themeLight')?.setAttribute('aria-pressed', String(theme === 'light'));
+      drawCharts();
+    }
+
+    // Toasts
+    function toast(title, message, variant = 'ok', ttl = 2600) {
+      const host = $('#toasts');
+      if (!host) return;
+
+      const el = document.createElement('div');
+      el.className = `toast ${variant}`;
+      el.innerHTML = `
+        <div class="row">
+          <strong>${escapeHtml(title)}</strong>
+          <button class="x" type="button" aria-label="Dismiss">×</button>
+        </div>
+        <p>${escapeHtml(message)}</p>
+      `;
+
+      const remove = () => {
+        if (!el.isConnected) return;
+        if (!prefersReduced()) el.style.animation = 'toastOut 160ms ease-in forwards';
+        setTimeout(() => el.remove(), prefersReduced() ? 0 : 160);
+      };
+
+      el.querySelector('.x')?.addEventListener('click', remove);
+      host.appendChild(el);
+      setTimeout(remove, ttl);
+    }
+
+    // Modal
+    function openModal({ title = 'Confirm action', body = 'Proceed?', onConfirm } = {}) {
+      $('#modalTitle').textContent = title;
+      $('#modalBody').textContent = body;
+      const backdrop = $('#modalBackdrop');
+      backdrop.setAttribute('aria-hidden', 'false');
+
+      const confirmBtn = $('#btnModalConfirm');
+      confirmBtn.onclick = () => {
+        closeModal();
+        try { onConfirm?.(); } catch (_) {}
+      };
+
+      $('#btnModalClose')?.focus();
+    }
+
+    function closeModal() {
+      $('#modalBackdrop')?.setAttribute('aria-hidden', 'true');
+    }
+
+    // Counters
+    function animateCount(el, target) {
+      const duration = prefersReduced() ? 1 : 900;
+      const start = performance.now();
+      const from = 0;
+
+      function tick(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const val = Math.round(from + (target - from) * eased);
+        el.textContent = val.toLocaleString();
+        if (t < 1) requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    function setStatus(msg) {
+      const line = $('#statusLine');
+      if (!line) return;
+      line.textContent = `Status: ${msg}`;
+    }
+
+    // Charts
+    function cssVar(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function drawGrid(ctx, w, h, color) {
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.globalAlpha = 0.35;
+      ctx.lineWidth = 1;
+      const step = 36;
+      for (let x = 0; x <= w; x += step) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+      }
+      for (let y = 0; y <= h; y += step) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function plotLine(ctx, w, h, values, stroke) {
+      const pad = 14;
+      const max = Math.max(...values, 1);
+      const min = Math.min(...values, 0);
+      const range = Math.max(1, max - min);
+      const xStep = (w - pad * 2) / (values.length - 1);
+
+      // Stroke
+      ctx.beginPath();
+      values.forEach((v, i) => {
+        const x = pad + i * xStep;
+        const y = pad + (h - pad * 2) * (1 - (v - min) / range);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Points
+      ctx.fillStyle = stroke;
+      values.forEach((v, i) => {
+        const x = pad + i * xStep;
+        const y = pad + (h - pad * 2) * (1 - (v - min) / range);
+        ctx.beginPath();
+        ctx.arc(x, y, 2.6, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    function ensureCanvasSize(canvas) {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const w = Math.max(1, Math.floor(rect.width * dpr));
+      const h = Math.max(1, Math.floor(rect.height * dpr));
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+      }
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      return { ctx, w: rect.width, h: rect.height };
+    }
+
+    function randSeries(points, base, variation) {
+      const out = [];
+      let v = base;
+      for (let i = 0; i < points; i++) {
+        v = Math.max(0, v + (Math.random() * 2 - 1) * variation);
+        out.push(Math.round(v));
+      }
+      return out;
+    }
+
+    let seriesRequests = randSeries(18, 70, 18);
+    let seriesErrors = randSeries(18, 3, 2.5);
+
+    function drawCharts() {
+      const theme = document.documentElement.dataset.theme || 'dark';
+      const gridColor = theme === 'light' ? 'rgba(16,22,42,0.10)' : 'rgba(255,255,255,0.10)';
+      const strokeRequests = cssVar('--brand-2') || '#00d4ff';
+      const strokeErrors = cssVar('--bad') || '#ff5c7a';
+      const text = cssVar('--muted');
+
+      // Slight jitter to feel live.
+      seriesRequests = seriesRequests.map((v) => Math.max(0, v + Math.round(Math.random() * 8 - 4)));
+      seriesErrors = seriesErrors.map((v) => Math.max(0, v + Math.round(Math.random() * 2 - 1)));
+
+      const c1 = document.getElementById('chartRequests');
+      const c2 = document.getElementById('chartErrors');
+      if (!c1 || !c2) return;
+
+      // Requests
+      {
+        const { ctx, w, h } = ensureCanvasSize(c1);
+        ctx.clearRect(0, 0, w, h);
+        drawGrid(ctx, w, h, gridColor);
+        ctx.fillStyle = text;
+        ctx.font = '12px system-ui';
+        ctx.fillText('Requests (last 18 intervals)', 14, 18);
+        plotLine(ctx, w, h, seriesRequests, strokeRequests);
+      }
+
+      // Errors
+      {
+        const { ctx, w, h } = ensureCanvasSize(c2);
+        ctx.clearRect(0, 0, w, h);
+        drawGrid(ctx, w, h, gridColor);
+        ctx.fillStyle = text;
+        ctx.font = '12px system-ui';
+        ctx.fillText('Errors (last 18 intervals)', 14, 18);
+        plotLine(ctx, w, h, seriesErrors, strokeErrors);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Theme
+      setTheme(localStorage.getItem('adminTheme') === 'light' ? 'light' : 'dark');
+
+      $('#themeDark')?.addEventListener('click', () => setTheme('dark'));
+      $('#themeLight')?.addEventListener('click', () => setTheme('light'));
+
+      // Buttons
+      $('#btnRefresh')?.addEventListener('click', refreshMetrics);
+
+      $('#btnExport')?.addEventListener('click', () => {
+        setStatus('Export started (demo).');
+        toast('Export', 'Generating report (demo)...', 'warn', 1800);
+        setTimeout(() => {
+          setStatus('Export complete (demo).');
+          toast('Export complete', 'Report is ready (demo).', 'ok');
+        }, 900);
+      });
+
+      $('#btnOpenModal')?.addEventListener('click', () => {
+        openModal({
+          title: 'Run demo action?',
+          body: 'This will show a confirmation flow and a success toast.',
+          onConfirm: () => toast('Confirmed', 'Demo action completed.', 'ok'),
+        });
+      });
+
+      $('#btnLockdown')?.addEventListener('click', () => {
+        openModal({
+          title: 'Enable Lockdown?',
+          body: 'This will restrict access and notify users. (Demo only)',
+          onConfirm: () => {
+            setStatus('Lockdown enabled (demo).');
+            toast('Lockdown enabled', 'Access restrictions applied (demo).', 'bad');
+          }
+        });
+      });
+
+      $('#btnAddUser')?.addEventListener('click', () => {
+        setStatus('Add user clicked (demo).');
+        toast('Add User', 'Open user creation flow (demo).', 'ok');
+      });
+
+      $('#btnDisableUser')?.addEventListener('click', () => {
+        setStatus('Disable selected clicked (demo).');
+        openModal({
+          title: 'Disable selected user?',
+          body: 'This action can be reversed later. (Demo only)',
+          onConfirm: () => toast('User disabled', 'Selected user has been disabled (demo).', 'warn')
+        });
+      });
+
+      ['toggleMaintenance', 'toggleVerbose', 'toggleAlerts'].forEach((id) => {
+        document.getElementById(id)?.addEventListener('change', () => {
+          setStatus(`${id} updated.`);
+          toast('Setting updated', `${id} changed.`, 'ok');
+        });
+      });
+
+      $('#btnModalClose')?.addEventListener('click', closeModal);
+      $('#btnModalCancel')?.addEventListener('click', closeModal);
+      $('#modalBackdrop')?.addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeModal();
+      });
+
+      // Charts can be 0px wide until after first layout; defer draw a tick.
+      setTimeout(() => {
+        refreshMetrics();
+        drawCharts();
+        toast('Welcome', 'Theme toggle, charts, modal and toasts are enabled.', 'ok', 2400);
+      }, 0);
+
+      window.addEventListener('resize', () => {
+        clearTimeout(window.__chartTimer);
+        window.__chartTimer = setTimeout(drawCharts, 120);
+      });
+
+      $('#year').textContent = String(new Date().getFullYear());
+    });
+  </script>
+</body>
+</html>

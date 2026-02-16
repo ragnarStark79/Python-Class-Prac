@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div style="text-align: center;">
+      <h1 style="color: #ff5733; text-align: center;">Welcome to the Dashboard {{ name }}!</h1>
+      <p style="color: #ff5733; text-align: center;">profession: {{ profession }}</p>
+      <p style="color: #333; font-size: 18px; text-align: center;">This is the dashboard page.</p>
+      
+      <!-- Counter Section -->
+      <div style="margin: 30px 0; padding: 20px; background-color: #f8f9fa; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h2 style="color: #333; margin-bottom: 20px;">Counter</h2>
+        <div style="font-size: 48px; font-weight: bold; color: #007bff; margin: 20px 0;" id="counterValue">0</div>
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+          <button onclick="increment()" class="btn btn-success btn-lg">Increment</button>
+          <button onclick="decrement()" class="btn btn-danger btn-lg">Decrement</button>
+          <button onclick="reset()" class="btn btn-warning btn-lg">Reset</button>
+        </div>
+      </div>
+      
+      <a href="{{ url_for('home') }}" class="btn btn-warning" style="display: block; width: fit-content; margin: 20px auto 0;">Home</a>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/counter.js') }}"></script>
+{% endblock %}

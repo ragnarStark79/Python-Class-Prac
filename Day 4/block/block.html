@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Block Elements Demo</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; padding: 24px; }
+    .card { border: 1px solid #ddd; padding: 16px; border-radius: 8px; margin: 12px 0; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #f6f8fa; }
+  </style>
+</head>
+<body>
+  <h1>Block elements</h1>
+
+  <section class="card">
+    <h2>Section</h2>
+    <p>Block elements usually start on a new line and take full width by default.</p>
+  </section>
+
+  <div class="grid">
+    <article class="card">
+      <h3>Article</h3>
+      <p>This is an <code>&lt;article&gt;</code> (block element).</p>
+      <ul>
+        <li>ul / li list</li>
+        <li>each li is block-level inside the list</li>
+      </ul>
+    </article>
+
+    <aside class="card">
+      <h3>Aside</h3>
+      <p>This is an <code>&lt;aside&gt;</code> (block element).</p>
+      <blockquote>
+        Blockquote is also a block element.
+      </blockquote>
+    </aside>
+  </div>
+
+  <div class="card">
+    <h2>Table (block container)</h2>
+    <table>
+      <thead>
+        <tr><th>Element</th><th>Type</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>div</td><td>block</td></tr>
+        <tr><td>p</td><td>block</td></tr>
+        <tr><td>span</td><td>inline</td></tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

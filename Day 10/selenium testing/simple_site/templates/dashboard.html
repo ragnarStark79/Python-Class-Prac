@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; }
+      .pill { display: inline-block; padding: 0.25rem 0.6rem; border-radius: 999px; background: #eef5ff; }
+      button { margin-top: 1rem; padding: 0.6rem 1rem; }
+    </style>
+  </head>
+  <body>
+    <h1 id="dashboard-title">Dashboard</h1>
+    <p>Signed in as <span id="user" class="pill">{{ user }}</span></p>
+
+    <form method="post" action="/logout">
+      <button id="logout" type="submit">Logout</button>
+    </form>
+  </body>
+</html>

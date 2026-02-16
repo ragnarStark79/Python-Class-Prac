@@ -1,0 +1,17 @@
+Selenium Test Report
+Target: Local Flask Site (simple_site)
+Timestamp: 2026-02-04 16:11:52
+============================================================
+
+============================= test session starts ==============================
+platform darwin -- Python 3.13.2, pytest-9.0.2, pluggy-1.6.0 -- /Users/ragnar/Documents/COD LANG/FTW/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/ragnar/Documents/COD LANG/FTW
+collecting ... collected 3 items
+
+Day 10/selenium testing/tests/test_ui_login.py::test_home_page PASSED    [ 33%]
+Day 10/selenium testing/tests/test_ui_login.py::test_invalid_login_shows_error PASSED [ 66%]
+Day 10/selenium testing/tests/test_ui_login.py::test_valid_login_dashboard_logout PASSED [100%]
+
+- generated xml file: /Users/ragnar/Documents/COD LANG/FTW/Day 10/selenium testing/tests/testlogs/userlogs/test-report-user.xml -
+============================== 3 passed in 36.57s ==============================

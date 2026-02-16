@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Home — Features</title>
+</head>
+<body>
+  <style>
+    :root{
+      --bg1:#0b1020;
+      --bg2:#0a2a43;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.06);
+      --text:#e8ecff;
+      --muted: rgba(232,236,255,.72);
+      --border: rgba(255,255,255,.14);
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --accent1:#7c4dff;
+      --accent2:#2dd4bf;
+      --radius: 18px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background:
+        radial-gradient(900px 600px at 15% 20%, rgba(124,77,255,.45), transparent 60%),
+        radial-gradient(900px 600px at 85% 30%, rgba(45,212,191,.35), transparent 55%),
+        radial-gradient(700px 500px at 50% 90%, rgba(255,255,255,.10), transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    .container{ width:min(1120px, calc(100% - 48px)); margin:0 auto; }
+
+    header{
+      position:sticky; top:0; z-index:10;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: linear-gradient(to bottom, rgba(10,16,32,.65), rgba(10,16,32,.25));
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav{ display:flex; align-items:center; justify-content:space-between; padding: 14px 0; gap:16px; }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px; }
+    .logo{
+      width:34px; height:34px; border-radius:12px;
+      background: conic-gradient(from 180deg, var(--accent2), var(--accent1), #60a5fa, var(--accent2));
+      box-shadow: 0 10px 30px rgba(124,77,255,.25);
+    }
+    .links{ display:flex; gap:18px; align-items:center; flex-wrap:wrap; }
+    .links a{
+      padding:10px 12px;
+      color: var(--muted);
+      border-radius: 12px;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+    .links a:hover{ color: var(--text); background: rgba(255,255,255,.06); transform: translateY(-1px); }
+    .links a[aria-current="page"]{ color: var(--text); background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); }
+
+    .cta{ display:flex; gap:10px; align-items:center; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      box-shadow: 0 12px 30px rgba(0,0,0,.18);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22); }
+    .btn.primary{
+      border-color: transparent;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      box-shadow: 0 18px 40px rgba(124,77,255,.22);
+    }
+    .btn.primary:hover{ transform: translateY(-1px) scale(1.01); }
+
+    main{ padding: 44px 0 70px; }
+
+    .page-hero{
+      padding: 22px 0 8px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items: start;
+    }
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 8px 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      width:fit-content;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.0) 60%),
+                  linear-gradient(135deg, var(--accent2), var(--accent1));
+      box-shadow: 0 0 0 6px rgba(45,212,191,.13);
+    }
+    h1{ margin: 14px 0 10px; font-size: clamp(30px, 3.6vw, 46px); line-height: 1.08; letter-spacing: -.02em; }
+    .sub{ margin: 0 0 18px; color: var(--muted); font-size: 16px; line-height: 1.65; max-width: 70ch; }
+
+    .panel{
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .panel::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(500px 220px at 20% 10%, rgba(124,77,255,.35), transparent 60%),
+                  radial-gradient(500px 220px at 80% 20%, rgba(45,212,191,.28), transparent 55%);
+      filter: blur(14px);
+      z-index:0;
+    }
+    .panel-inner{ position:relative; z-index:1; padding: 18px; }
+
+    .kpi-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .card{
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(10,16,32,.35);
+    }
+    .card .k{ font-size: 12px; color: rgba(232,236,255,.65); letter-spacing: .08em; text-transform: uppercase; }
+    .card .v{ margin-top: 8px; font-size: 20px; font-weight: 750; }
+    .card .d{ margin-top: 8px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+
+    .section{ margin-top: 36px; }
+    .section h2{ margin:0 0 10px; font-size: 22px; letter-spacing: -.01em; }
+    .section p{ margin: 0 0 18px; color: var(--muted); max-width: 80ch; }
+
+    .features{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .feature{
+      padding: 18px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 14px 40px rgba(0,0,0,.18);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .feature:hover{ transform: translateY(-2px); background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.20); }
+    .icon{
+      width: 42px; height: 42px;
+      border-radius: 14px;
+      display:grid; place-items:center;
+      background: linear-gradient(135deg, rgba(124,77,255,.25), rgba(45,212,191,.20));
+      border: 1px solid rgba(255,255,255,.14);
+      margin-bottom: 12px;
+    }
+    .feature h3{ margin: 0 0 6px; font-size: 16px; }
+    .feature p{ margin: 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+
+    .compare{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .list{ margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.75; }
+
+    footer{ margin-top: 60px; padding: 26px 0 40px; border-top: 1px solid rgba(255,255,255,.08); color: rgba(232,236,255,.65); }
+    .foot{ display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; font-size: 14px; }
+
+    @media (max-width: 900px){
+      .page-hero{ grid-template-columns: 1fr; }
+      .features{ grid-template-columns: 1fr; }
+      .compare{ grid-template-columns: 1fr; }
+      .links{ display:none; }
+    }
+  </style>
+
+  <header>
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <span class="logo" aria-hidden="true"></span>
+        <span>Nova Home</span>
+      </a>
+
+      <nav class="links" aria-label="Primary">
+        <a href="features.html" aria-current="page">Features</a>
+        <a href="overview.html">Overview</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="cta">
+        <a class="btn" href="index.html">Home</a>
+        <a class="btn primary" href="contact.html">Get started</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="page-hero" aria-label="Features hero">
+      <div>
+        <div class="eyebrow">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Everything you need to ship fast</span>
+        </div>
+        <h1>Features that feel premium—without extra libraries.</h1>
+        <p class="sub">
+          Reusable components, clean spacing, and a consistent dark-glass theme. This page is designed to showcase what your site or product offers.
+        </p>
+        <div class="cta" style="gap:12px; flex-wrap:wrap;">
+          <a class="btn primary" href="overview.html">See the overview</a>
+          <a class="btn" href="contact.html">Talk to us</a>
+        </div>
+      </div>
+
+      <aside class="panel" aria-label="Quick highlights">
+        <div class="panel-inner">
+          <div class="kpi-grid">
+            <div class="card">
+              <div class="k">Components</div>
+              <div class="v">Hero + Cards</div>
+              <div class="d">Ready-made sections to copy/paste.</div>
+            </div>
+            <div class="card">
+              <div class="k">Accessibility</div>
+              <div class="v">Semantic HTML</div>
+              <div class="d">Better structure for readers & SEO.</div>
+            </div>
+            <div class="card">
+              <div class="k">Design tokens</div>
+              <div class="v">CSS variables</div>
+              <div class="d">Change the theme in one place.</div>
+            </div>
+            <div class="card">
+              <div class="k">Responsive</div>
+              <div class="v">Mobile-first</div>
+              <div class="d">Grids collapse cleanly.</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" aria-label="Feature cards">
+      <h2>Core features</h2>
+      <p>A polished set of UI blocks you can reuse across a portfolio, product, or school project.</p>
+
+      <div class="features">
+        <article class="feature">
+          <div class="icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M13 7h7v7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 7L10 17l-6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Clean navigation</h3>
+          <p>Separate pages (Home/Features/Overview/Contact) with an active link state.</p>
+        </article>
+
+        <article class="feature">
+          <div class="icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M4 7h16M4 12h10M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Flexible sections</h3>
+          <p>Use cards, lists, and panels to build content quickly without changing the theme.</p>
+        </article>
+
+        <article class="feature">
+          <div class="icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Copy/paste friendly</h3>
+          <p>Each block is self-contained—ideal for learning and iterating.</p>
+        </article>
+
+        <article class="feature">
+          <div class="icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2l2.7 5.7 6.3.9-4.6 4.5 1.1 6.3L12 16.9 6.5 19.4l1.1-6.3L3 8.6l6.3-.9L12 2z" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <h3>Premium look</h3>
+          <p>Glass overlays, gradients, and soft shadows—pure CSS.</p>
+        </article>
+
+        <article class="feature">
+          <div class="icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M6 4h12v16H6z" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M8 8h8M8 12h8M8 16h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Readable typography</h3>
+          <p>Good line height, restrained widths, and consistent rhythm.</p>
+        </article>
+
+        <article class="feature">
+          <div class="icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M4 12a8 8 0 1016 0A8 8 0 004 12z" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Fast to ship</h3>
+          <p>Minimal HTML and CSS, no build tooling required.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Comparison">
+      <h2>What you can build</h2>
+      <p>Two common ways to use this layout, depending on your goal.</p>
+
+      <div class="compare">
+        <div class="panel">
+          <div class="panel-inner">
+            <h3 style="margin:0 0 8px;">Portfolio site</h3>
+            <ul class="list">
+              <li>Showcase projects with cards</li>
+              <li>Highlight skills and tools</li>
+              <li>Link to GitHub / LinkedIn</li>
+              <li>Simple contactCTA</li>
+            </ul>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-inner">
+            <h3 style="margin:0 0 8px;">Product landing page</h3>
+            <ul class="list">
+              <li>Feature grid + overview metrics</li>
+              <li>Pricing / plan cards (optional)</li>
+              <li>Testimonials section (optional)</li>
+              <li>Email capture or contact form</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container foot">
+        <span>© <span id="year"></span> Nova Home</span>
+        <span>Features • Modern CSS</span>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page</title>
+  
+  <!-- Match styling approach from form.html (inline CSS, dark neon/glass look) -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a2332 50%, #0f3d3e 100%);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(57, 255, 20, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -100px;
+      right: -100px;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255, 51, 102, 0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      bottom: -80px;
+      left: -80px;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(30px, 30px) scale(1.1);
+      }
+    }
+
+    .container {
+      background: rgba(20, 30, 48, 0.85);
+      backdrop-filter: blur(20px);
+      padding: 48px;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(57, 255, 20, 0.1);
+      width: 100%;
+      max-width: 720px;
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(300px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #39ff14 0%, #00ffcc 50%, #ff3366 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+      animation: gradientShift 3s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes gradientShift {
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    p {
+      color: rgba(232, 245, 233, 0.85);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .subtitle {
+      margin-bottom: 28px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 16px 22px;
+      min-width: 180px;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      color: #0a0e27;
+      background: linear-gradient(135deg, #39ff14 0%, #00ffcc 100%);
+      box-shadow: 0 4px 20px rgba(57, 255, 20, 0.3);
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #00ffcc 0%, #39ff14 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(57, 255, 20, 0.5);
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-secondary {
+      color: rgba(232, 245, 233, 0.9);
+      background: rgba(15, 61, 62, 0.35);
+      border: 2px solid rgba(57, 255, 20, 0.2);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-3px);
+      border-color: rgba(57, 255, 20, 0.55);
+      box-shadow: 0 8px 24px rgba(57, 255, 20, 0.15);
+      background: rgba(15, 61, 62, 0.5);
+    }
+
+    .hint {
+      margin-top: 18px;
+      font-size: 13px;
+      color: rgba(232, 245, 233, 0.6);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <h1>Welcome</h1>
+    <p class="subtitle">This is a simple server-rendered page served by your Flask app.</p>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="/form">Get Started</a>
+      <a class="btn btn-secondary" href="/">Home</a>
+    </div>
+
+    <p class="hint">Tip: click <strong>Get Started</strong> to open the registration form.</p>
+  </main>
+</body>
+
+</html>

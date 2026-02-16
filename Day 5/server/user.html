@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Portal</title>
+  <meta name="description" content="Advanced user portal page with animations and multiple sections." />
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel-2: rgba(255, 255, 255, 0.09);
+      --text: #eaf0ff;
+      --muted: rgba(234, 240, 255, 0.72);
+      --brand: #7c5cff;
+      --brand-2: #00d4ff;
+      --ok: #2ee59d;
+      --warn: #ffcc66;
+      --bad: #ff5c7a;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --border: 1px solid rgba(255, 255, 255, 0.10);
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--text);
+      background: radial-gradient(1200px 900px at 20% 10%, rgba(124, 92, 255, 0.25), transparent 55%),
+        radial-gradient(1000px 700px at 80% 20%, rgba(0, 212, 255, 0.20), transparent 55%),
+        radial-gradient(900px 800px at 65% 85%, rgba(46, 229, 157, 0.12), transparent 55%),
+        var(--bg);
+      overflow-x: hidden;
+    }
+
+    /* Animated background blobs */
+    .bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .blob {
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: 0.55;
+      mix-blend-mode: screen;
+      animation: float 12s ease-in-out infinite;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .blob.one {
+      left: -140px;
+      top: -160px;
+      background: radial-gradient(circle at 30% 30%, rgba(124, 92, 255, 0.95), rgba(124, 92, 255, 0.0) 60%);
+      animation-duration: 14s;
+    }
+
+    .blob.two {
+      right: -220px;
+      top: 40px;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 212, 255, 0.90), rgba(0, 212, 255, 0.0) 60%);
+      animation-duration: 16s;
+      animation-delay: -3s;
+    }
+
+    .blob.three {
+      left: 18%;
+      bottom: -260px;
+      background: radial-gradient(circle at 30% 30%, rgba(46, 229, 157, 0.95), rgba(46, 229, 157, 0.0) 60%);
+      animation-duration: 18s;
+      animation-delay: -6s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(22px, -18px) scale(1.06);
+      }
+
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 26px 18px 60px;
+    }
+
+    header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      animation: slideIn 700ms cubic-bezier(.2, .9, .2, 1) both;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0) 45%),
+        linear-gradient(135deg, var(--brand), var(--brand-2));
+      box-shadow: 0 15px 35px rgba(124, 92, 255, 0.35);
+    }
+
+    .brand h2 {
+      margin: 0;
+      font-size: 14px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .btn {
+      border: var(--border);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.22);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.95), rgba(0, 212, 255, 0.70));
+      border-color: rgba(255, 255, 255, 0.18);
+      box-shadow: 0 18px 45px rgba(124, 92, 255, 0.25);
+    }
+
+    .hero {
+      border: var(--border);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      overflow: hidden;
+      position: relative;
+      animation: fadeUp 700ms cubic-bezier(.2, .9, .2, 1) both;
+      animation-delay: 80ms;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(22px, 3vw, 34px);
+      letter-spacing: -0.6px;
+    }
+
+    .hero p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 75ch;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: -120px -120px auto auto;
+      width: 320px;
+      height: 320px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 60%);
+      transform: rotate(18deg);
+      pointer-events: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .card {
+      grid-column: span 12;
+      border: var(--border);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 700ms cubic-bezier(.2, .9, .2, 1) both;
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      letter-spacing: 0.2px;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--ok);
+      box-shadow: 0 0 0 6px rgba(46, 229, 157, 0.18);
+    }
+
+    .list {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .table th,
+    .table td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+      font-size: 13px;
+      color: rgba(234, 240, 255, 0.88);
+    }
+
+    .table th {
+      color: rgba(234, 240, 255, 0.62);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .table tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-18px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .note {
+      margin-top: 10px;
+      color: rgba(234, 240, 255, 0.62);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (min-width: 860px) {
+      .card.span-7 {
+        grid-column: span 7;
+      }
+
+      .card.span-5 {
+        grid-column: span 5;
+      }
+
+      .card.span-6 {
+        grid-column: span 6;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .blob,
+      header,
+      .hero,
+      .card {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg" aria-hidden="true">
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+    <div class="blob three"></div>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>
+          <h2>User Portal</h2>
+          <p>Access level: <strong>Guest</strong> (no login required)</p>
+        </div>
+      </div>
+
+      <div class="actions" aria-label="User quick actions">
+        <button class="btn" type="button" id="btnExplore">Explore</button>
+        <button class="btn" type="button" id="btnSupport">Support</button>
+        <button class="btn primary" type="button" id="btnStart">Get Started</button>
+      </div>
+    </header>
+
+    <section class="hero" aria-label="Welcome section">
+      <h1>Welcome, User</h1>
+      <p>
+        This is your user-facing page. Browse content, check updates, and view your
+        recent activity. (Demo UI only — wire this page to your server endpoints when ready.)
+      </p>
+      <p class="note" id="statusLine">Status: Ready.</p>
+    </section>
+
+    <section class="grid" aria-label="User dashboard sections">
+      <article class="card span-7" style="animation-delay: 140ms;">
+        <h3>What you can do here</h3>
+        <p>Quick guide to the main features available for users.</p>
+
+        <div class="list">
+          <div class="pill"><span class="dot"></span> View public pages and updates</div>
+          <div class="pill"><span class="dot"></span> Browse featured content</div>
+          <div class="pill"><span class="dot"></span> Get help and support links</div>
+        </div>
+      </article>
+
+      <article class="card span-5" style="animation-delay: 200ms;">
+        <h3>Today’s Highlights</h3>
+        <p>Sample stats that can later come from your backend.</p>
+        <div class="list" style="margin-top:12px;">
+          <div class="pill">New items: <strong><span class="count" data-count="6">0</span></strong></div>
+          <div class="pill">Messages: <strong><span class="count" data-count="2">0</span></strong></div>
+          <div class="pill">Tips: <strong><span class="count" data-count="11">0</span></strong></div>
+        </div>
+      </article>
+
+      <article class="card span-6" style="animation-delay: 260ms;">
+        <h3>Recent Updates</h3>
+        <p>A simple feed for announcements or release notes.</p>
+        <div class="list">
+          <div class="pill">New: Updated UI animations</div>
+          <div class="pill">Improved: Mobile layout</div>
+          <div class="pill">Added: Quick actions</div>
+        </div>
+      </article>
+
+      <article class="card span-6" style="animation-delay: 320ms;">
+        <h3>Public Content</h3>
+        <p>Example table layout for content listings.</p>
+        <table class="table" aria-label="Public content list">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Overview</td>
+              <td>page</td>
+              <td><span class="pill"><span class="dot"></span> available</span></td>
+            </tr>
+            <tr>
+              <td>Features</td>
+              <td>page</td>
+              <td><span class="pill"><span class="dot"></span> available</span></td>
+            </tr>
+            <tr>
+              <td>Contact</td>
+              <td>page</td>
+              <td><span class="pill"><span class="dot"></span> available</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card" style="animation-delay: 380ms;">
+        <h3>Preferences (demo)</h3>
+        <p>These options update the status line only (front-end demo).</p>
+
+        <div class="list" style="margin-top:12px;">
+          <label class="pill" style="cursor:pointer;">
+            <input type="checkbox" id="toggleNews" checked style="accent-color: var(--ok);" />
+            Show news updates
+          </label>
+          <label class="pill" style="cursor:pointer;">
+            <input type="checkbox" id="toggleTips" checked style="accent-color: var(--brand);" />
+            Show tips
+          </label>
+        </div>
+      </article>
+    </section>
+
+    <footer style="margin-top: 18px; color: rgba(234,240,255,0.55); font-size: 12px;">
+      <span>© <span id="year"></span> User Portal</span>
+      <span style="margin-left:10px;">•</span>
+      <span style="margin-left:10px;">No login required</span>
+    </footer>
+  </div>
+
+  <script>
+    const $ = (sel) => document.querySelector(sel);
+    const $$ = (sel) => document.querySelectorAll(sel);
+
+    function setStatus(msg) {
+      const el = $('#statusLine');
+      if (!el) return;
+      el.textContent = `Status: ${msg}`;
+    }
+
+    function animateCount(el, target) {
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const duration = prefersReduced ? 1 : 800;
+      const start = performance.now();
+
+      function tick(now) {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const val = Math.round(target * eased);
+        el.textContent = val.toLocaleString();
+        if (t < 1) requestAnimationFrame(tick);
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    function refreshHighlights() {
+      $$('.count[data-count]').forEach((el) => {
+        const base = Number(el.getAttribute('data-count') || '0');
+        const jitter = Math.round(base * (Math.random() * 0.2 - 0.1));
+        animateCount(el, Math.max(0, base + jitter));
+      });
+      setStatus('Highlights refreshed.');
+    }
+
+    $('#btnExplore')?.addEventListener('click', () => {
+      setStatus('Exploring content (demo).');
+      window.location.hash = '#';
+    });
+
+    $('#btnSupport')?.addEventListener('click', () => {
+      setStatus('Opening support (demo).');
+    });
+
+    $('#btnStart')?.addEventListener('click', () => {
+      setStatus('Getting started (demo).');
+      refreshHighlights();
+    });
+
+    ['toggleNews', 'toggleTips'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('change', () => setStatus(`${id} updated.`));
+    });
+
+    $('#year').textContent = String(new Date().getFullYear());
+    refreshHighlights();
+  </script>
+</body>
+
+</html>

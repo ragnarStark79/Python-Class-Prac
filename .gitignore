@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Packaging / build
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+.env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs / coverage / test caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage*
+htmlcov/
+
+# OS
+.DS_Store
+
+# Editors / IDEs
+.vscode/
+.idea/
+
+# Selenium / browser drivers
+chromedriver*
+geckodriver*
+
+# Explicitly ignore these folders (do not push)
+Day 7/
+Day 8/

@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 d-flex align-items-center justify-content-center py-5">
+  <div class="container" style="max-width: 980px;">
+    <div class="row g-4 align-items-stretch">
+      <div class="col-12 col-lg-6">
+        <div class="card shadow-sm border-0 h-100" style="border-radius: 16px;">
+          <div class="card-body p-4 p-md-5">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div>
+                <h1 class="h3 mb-1">Welcome</h1>
+                <p class="text-body-secondary mb-0">Sign in to continue.</p>
+              </div>
+              <span class="badge text-bg-warning">Day 17</span>
+            </div>
+
+            <form method="post" action="{{ url_for('home') }}" class="mt-4">
+              <div class="mb-3">
+                <label for="email3" class="form-label">Email</label>
+                <input id="email3" class="form-control form-control-lg" type="email" name="email3" placeholder="you@example.com" autocomplete="email">
+              </div>
+
+              <div class="mb-4">
+                <label for="password" class="form-label">Password</label>
+                <input id="password" class="form-control form-control-lg" type="password" name="password" placeholder="Enter password" autocomplete="current-password">
+                <div class="form-text">Your password is never displayed back.</div>
+              </div>
+
+              <div class="d-grid gap-2 d-sm-flex">
+                <button type="submit" class="btn btn-warning btn-lg px-4">Submit</button>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary btn-lg px-4">Dashboard</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="card shadow-sm border-0 h-100" style="border-radius: 16px;">
+          <div class="card-body p-4 p-md-5">
+            <h2 class="h4 mb-2">Preview</h2>
+            <p class="text-body-secondary">A clean, centered layout that matches the dashboard style.</p>
+
+            <div class="mt-4 p-4 bg-light rounded-4 border">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="small text-body-secondary">Status</div>
+                  {% if data is defined and data %}
+                    <div class="fw-semibold">Submitted</div>
+                  {% else %}
+                    <div class="fw-semibold">Waiting for input</div>
+                  {% endif %}
+                </div>
+                <div class="text-end">
+                  <div class="small text-body-secondary">Security</div>
+                  <div class="fw-semibold">Password hidden</div>
+                </div>
+              </div>
+
+              {% if data is defined and data %}
+                <hr>
+                <div class="small text-body-secondary mb-1">Submitted email</div>
+                <div class="font-monospace">{{ data }}</div>
+
+                {% if password_received %}
+                  <div class="mt-2 small text-success">Password submitted (hidden)</div>
+                {% endif %}
+              {% endif %}
+            </div>
+
+            <div class="mt-4 text-body-secondary small">
+              Tip: you can keep using your existing route logic — this is just a UI update.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

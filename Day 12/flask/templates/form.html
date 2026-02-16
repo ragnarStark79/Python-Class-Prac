@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #ffeb55, #ffbd8a);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #ff3300;
+      color: #fff;
+      font-size: 1.2em;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      flex-direction: column;
+      background: linear-gradient(to right, #ff3300, #feb47b);
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .innerContainer {
+      max-width: 800px;
+      text-align: center;
+    }
+
+    input {
+      background: linear-gradient(to right, #feb47b, #ff67ae);
+    }
+
+    input::placeholder {
+      color: #ffffff;
+      opacity: 1;
+      text-align: center;
+
+    }
+    input:focus {
+      outline: none;
+      border-color: #ff3300;
+      box-shadow: 0 0 10px rgba(255, 51, 0, 0.5);
+    }
+  </style>
+</head>
+
+<body>
+  {% include 'nav.html' %}
+  <div class="container">
+    <div class="innerContainer">
+      <h1>
+        This is the Form page
+      </h1>
+      <form action="/form" method="post">
+        <input type="text" name="name" placeholder="Enter your name">
+        <input type="text" name="profession" placeholder="Enter your profession">
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>

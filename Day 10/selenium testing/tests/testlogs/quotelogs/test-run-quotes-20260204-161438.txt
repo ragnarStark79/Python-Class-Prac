@@ -1,0 +1,85 @@
+Selenium Test Report
+Target: Quotes.toscrape.com
+Timestamp: 2026-02-04 16:15:22
+============================================================
+
+============================= test session starts ==============================
+platform darwin -- Python 3.13.2, pytest-9.0.2, pluggy-1.6.0 -- /Users/ragnar/Documents/COD LANG/FTW/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/ragnar/Documents/COD LANG/FTW
+collecting ... collected 2 items
+
+Day 10/selenium testing/tests/test_quotes_site.py::test_quotes_login PASSED [ 50%]
+Day 10/selenium testing/tests/test_quotes_site.py::test_quotes_logout FAILED [100%]
+
+=================================== FAILURES ===================================
+______________________________ test_quotes_logout ______________________________
+Day 10/selenium testing/tests/test_quotes_site.py:98: in test_quotes_logout
+    WebDriverWait(driver, 10).until(
+.venv/lib/python3.13/site-packages/selenium/webdriver/support/wait.py:112: in until
+    value = method(self._driver)
+            ^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/selenium/webdriver/support/expected_conditions.py:92: in _predicate
+    return driver.find_element(*locator)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py:802: in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py:432: in execute
+    self.error_handler.check_response(response)
+.venv/lib/python3.13/site-packages/selenium/webdriver/remote/errorhandler.py:232: in check_response
+    raise exception_class(message, screen, stacktrace)
+E   selenium.common.exceptions.NoSuchWindowException: Message: no such window: target window already closed
+E   from unknown error: web view not found
+E     (Session info: chrome=144.0.7559.133)
+E   Stacktrace:
+E   0   chromedriver                        0x0000000104fbb928 cxxbridge1$str$ptr + 3098388
+E   1   chromedriver                        0x0000000104fb3c04 cxxbridge1$str$ptr + 3066352
+E   2   chromedriver                        0x0000000104a9683c _RNvCs5DBLTqoOdVp_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 75008
+E   3   chromedriver                        0x0000000104a6f330 chromedriver + 160560
+E   4   chromedriver                        0x0000000104b08c4c _RNvCs5DBLTqoOdVp_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 542992
+E   5   chromedriver                        0x0000000104b1eb30 _RNvCs5DBLTqoOdVp_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 632820
+E   6   chromedriver                        0x0000000104ad407c _RNvCs5DBLTqoOdVp_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 326976
+E   7   chromedriver                        0x0000000104f7a884 cxxbridge1$str$ptr + 2831984
+E   8   chromedriver                        0x0000000104f7dfcc cxxbridge1$str$ptr + 2846136
+E   9   chromedriver                        0x0000000104f5f578 cxxbridge1$str$ptr + 2720612
+E   10  chromedriver                        0x0000000104f7e850 cxxbridge1$str$ptr + 2848316
+E   11  chromedriver                        0x0000000104f4f640 cxxbridge1$str$ptr + 2655276
+E   12  chromedriver                        0x0000000104fa2194 cxxbridge1$str$ptr + 2994048
+E   13  chromedriver                        0x0000000104fa2310 cxxbridge1$str$ptr + 2994428
+E   14  chromedriver                        0x0000000104fb385c cxxbridge1$str$ptr + 3065416
+E   15  libsystem_pthread.dylib             0x000000019b275c08 _pthread_start + 136
+E   16  libsystem_pthread.dylib             0x000000019b270ba8 thread_start + 8
+----------------------------- Captured stdout call -----------------------------
+
+🌐 Opening quotes.toscrape.com login page...
+📝 Entering username: 'admin'...
+📝 Entering password: 'admin'...
+🔘 Clicking submit button...
+✓ Waiting for successful login...
+🔘 Clicking logout link...
+✓ Waiting for Login link to appear after logout...
+- generated xml file: /Users/ragnar/Documents/COD LANG/FTW/Day 10/selenium testing/tests/testlogs/quotelogs/test-report-quotes.xml -
+=========================== short test summary info ============================
+FAILED Day 10/selenium testing/tests/test_quotes_site.py::test_quotes_logout - selenium.common.exceptions.NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=144.0.7559.133)
+Stacktrace:
+0   chromedriver                        0x0000000104fbb928 cxxbridge1$str$ptr + 3098388
+1   chromedriver                        0x0000000104fb3c04 cxxbridge1$str$ptr + 3066352
+2   chromedriver                        0x0000000104a9683c _RNvCs5DBLTqoOdVp_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 75008
+3   chromedriver                        0x0000000104a6f330 chromedriver + 160560
+4   chromedriver                        0x0000000104b08c4c _RNvCs5DBLTqoOdVp_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 542992
+5   chromedriver                        0x0000000104b1eb30 _RNvCs5DBLTqoOdVp_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 632820
+6   chromedriver                        0x0000000104ad407c _RNvCs5DBLTqoOdVp_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 326976
+7   chromedriver                        0x0000000104f7a884 cxxbridge1$str$ptr + 2831984
+8   chromedriver                        0x0000000104f7dfcc cxxbridge1$str$ptr + 2846136
+9   chromedriver                        0x0000000104f5f578 cxxbridge1$str$ptr + 2720612
+10  chromedriver                        0x0000000104f7e850 cxxbridge1$str$ptr + 2848316
+11  chromedriver                        0x0000000104f4f640 cxxbridge1$str$ptr + 2655276
+12  chromedriver                        0x0000000104fa2194 cxxbridge1$str$ptr + 2994048
+13  chromedriver                        0x0000000104fa2310 cxxbridge1$str$ptr + 2994428
+14  chromedriver                        0x0000000104fb385c cxxbridge1$str$ptr + 3065416
+15  libsystem_pthread.dylib             0x000000019b275c08 _pthread_start + 136
+16  libsystem_pthread.dylib             0x000000019b270ba8 thread_start + 8
+========================= 1 failed, 1 passed in 43.60s =========================

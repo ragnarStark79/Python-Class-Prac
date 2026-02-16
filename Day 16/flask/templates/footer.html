@@ -1,0 +1,90 @@
+<footer class="text-white footer-custom">
+  <div class="container py-4">
+    <div class="row g-4 align-items-start text-center text-md-start">
+      <!-- About Section (Left) -->
+      <div class="col-12 col-md-4">
+        <h5 class="text-uppercase fw-bold mb-3">About Us</h5>
+        <p class="mb-3" style="font-size: 0.9rem;">
+          Building amazing web experiences with Flask. Your trusted partner for innovative solutions.
+        </p>
+        <div class="d-flex justify-content-center justify-content-md-start gap-3">
+          <a href="#" class="text-white footer-icon"><span aria-hidden="true">📘</span></a>
+          <a href="#" class="text-white footer-icon"><span aria-hidden="true">🐦</span></a>
+          <a href="#" class="text-white footer-icon"><span aria-hidden="true">📷</span></a>
+          <a href="#" class="text-white footer-icon"><span aria-hidden="true">💼</span></a>
+        </div>
+      </div>
+
+      <!-- Quick Links (Middle) -->
+      <div class="col-12 col-md-4">
+        <h5 class="text-uppercase fw-bold mb-3">Quick Links</h5>
+        <ul class="list-unstyled m-0 footer-links" style="font-size: 0.9rem;">
+          <li><a href="{{ url_for('home') }}" class="text-white">🏠 Home</a></li>
+          <li><a href="{{ url_for('dashboard') }}" class="text-white">📊 Dashboard</a></li>
+          <li><a href="#" class="text-white">ℹ️ About</a></li>
+          <li><a href="#" class="text-white">📞 Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info (Right) -->
+      <div class="col-12 col-md-4">
+        <h5 class="text-uppercase fw-bold mb-3">Contact</h5>
+        <ul class="list-unstyled m-0 footer-contact" style="font-size: 0.9rem;">
+          <li>📍 123 Web Street, Flask City</li>
+          <li>📧 info@mywebsite.com</li>
+          <li>📞 +1 (555) 123-4567</li>
+          <li>🕒 Mon - Fri: 9AM - 6PM</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="my-4 footer-hr">
+
+    <div class="text-center">
+      <p class="mb-0" style="font-size: 0.85rem;">
+        © 2026 <strong>My Website</strong>. All rights reserved. |
+        <a href="#" class="text-white footer-inline-link">Privacy Policy</a> |
+        <a href="#" class="text-white footer-inline-link">Terms of Service</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer-custom{
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    width: 100%;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    margin-top: auto;
+  }
+
+  .footer-hr{
+    background-color: rgba(255,255,255,0.3);
+    height: 1px;
+    border: none;
+  }
+
+  .footer-links li,
+  .footer-contact li{
+    margin-bottom: .5rem;
+  }
+
+  .footer-links a,
+  .footer-inline-link{
+    text-decoration: none;
+  }
+
+  .footer-links a:hover,
+  .footer-inline-link:hover{
+    text-decoration: underline;
+  }
+
+  .footer-icon{
+    text-decoration: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

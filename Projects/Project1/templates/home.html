@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Student Portfolio{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1 class="hero-title">Welcome to My Portfolio</h1>
+            <p class="hero-subtitle">Computer Science Student | Developer | Problem Solver</p>
+            <div class="hero-buttons">
+                <a href="/portfolio" class="btn btn-primary">View My Work</a>
+                <a href="/previous-semester" class="btn btn-secondary">Academic Journey</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="floating-card">
+                <i class="fas fa-code"></i>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <i class="fas fa-chevron-down"></i>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="section about-section">
+    <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>I'm a passionate computer science student dedicated to learning and creating innovative solutions.
+                   With a strong foundation in programming and a keen interest in web development, I'm constantly
+                   exploring new technologies and pushing the boundaries of what's possible.</p>
+                <p>My journey in tech is driven by curiosity and the desire to make a positive impact through
+                   technology. I believe in continuous learning and collaboration.</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Web Development</h3>
+                    <p>HTML, CSS, JavaScript, Flask</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-database"></i>
+                    <h3>Backend</h3>
+                    <p>Python, SQL, REST APIs</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Responsive Design</h3>
+                    <p>Mobile-first, Cross-browser</p>
+                </div>
+                <div class="skill-item">
+                    <i class="fas fa-brain"></i>
+                    <h3>Problem Solving</h3>
+                    <p>Algorithms, Data Structures</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="section stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h3 class="stat-number" data-target="15">0</h3>
+                <p class="stat-label">Projects Completed</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <h3 class="stat-number" data-target="8">0</h3>
+                <p class="stat-label">Courses Finished</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3 class="stat-number" data-target="500">0</h3>
+                <p class="stat-label">Hours of Code</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3 class="stat-number" data-target="3">0</h3>
+                <p class="stat-label">Achievements</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Animated counter
+    const animateCounter = (element) => {
+        const target = parseInt(element.getAttribute('data-target'));
+        const duration = 2000;
+        const increment = target / (duration / 16);
+        let current = 0;
+
+        const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+                element.textContent = Math.floor(current);
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = target;
+            }
+        };
+
+        updateCounter();
+    };
+
+    // Trigger counter animation on scroll
+    const statObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const numbers = entry.target.querySelectorAll('.stat-number');
+                numbers.forEach(num => {
+                    if (num.textContent === '0') {
+                        animateCounter(num);
+                    }
+                });
+                statObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.querySelector('.stats-section');
+    if (statsSection) {
+        statObserver.observe(statsSection);
+    }
+</script>
+{% endblock %}

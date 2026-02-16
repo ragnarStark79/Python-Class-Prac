@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a2332 50%, #0f3d3e 100%);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(57, 255, 20, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      top: -100px;
+      right: -100px;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255, 51, 102, 0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      bottom: -80px;
+      left: -80px;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, 30px) scale(1.1); }
+    }
+
+    .container {
+      background: rgba(20, 30, 48, 0.85);
+      backdrop-filter: blur(20px);
+      padding: 48px;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
+                  0 0 0 1px rgba(57, 255, 20, 0.1);
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(300px);
+        delay: 0.2s;
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        
+      }
+    }
+
+    /* NEW: simple nav */
+    .nav {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 12px;
+      color: rgba(232, 245, 233, 0.9);
+      background: rgba(15, 61, 62, 0.35);
+      border: 2px solid rgba(57, 255, 20, 0.2);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav a:hover {
+      transform: translateY(-2px);
+      border-color: rgba(57, 255, 20, 0.55);
+      box-shadow: 0 8px 24px rgba(57, 255, 20, 0.15);
+      background: rgba(15, 61, 62, 0.5);
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #39ff14 0%, #00ffcc 50%, #ff3366 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      margin-bottom: 36px;
+      letter-spacing: -0.5px;
+      animation: gradientShift 3s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 15px;
+      border: 2px solid rgba(57, 255, 20, 0.2);
+      border-radius: 14px;
+      background: rgba(15, 61, 62, 0.4);
+      color: #e8f5e9;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #39ff14;
+      background: rgba(15, 61, 62, 0.6);
+      box-shadow: 0 0 0 4px rgba(57, 255, 20, 0.15),
+                  0 8px 24px rgba(57, 255, 20, 0.2);
+      transform: translateY(-2px);
+    }
+
+    input::placeholder {
+      color: rgba(232, 245, 233, 0.5);
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      margin-top: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #0a0e27;
+      background: linear-gradient(135deg, #39ff14 0%, #00ffcc 100%);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(57, 255, 20, 0.3);
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #00ffcc 0%, #39ff14 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(57, 255, 20, 0.5);
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(57, 255, 20, 0.4);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <nav class="nav">
+      <a href="/">← Back to Home</a>
+    </nav>
+
+    <h1>User Registration</h1>
+    <form method="post" id="registrationForm">
+      <input name="email" type="email" placeholder="Email address" required>
+      <input name="name" type="text" placeholder="Full name" required>
+      <input name="phone" type="tel" placeholder="Phone number (10 digits)" maxlength="10" pattern="[0-9]{10}" required>
+      <input name="password" type="password" placeholder="Password (8 characters)" minlength="8" maxlength="8" required>
+      <button type="submit">Continue</button>
+    </form>
+    <div id="notification" style="display: none; margin-top: 20px; padding: 16px; background: rgba(57, 255, 20, 0.2); border: 2px solid #39ff14; border-radius: 14px; color: #e8f5e9; text-align: center;">
+      <p style="margin-bottom: 12px;">Form submitted successfully!</p>
+      <button onclick="location.reload()" style="width: auto; padding: 10px 24px; font-size: 14px;">Done</button>
+    </div>
+  </div>
+  <script>
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('registrationForm').style.display = 'none';
+      document.getElementById('notification').style.display = 'block';
+    });
+  </script>
+  </script>
+</body>
+
+</html>

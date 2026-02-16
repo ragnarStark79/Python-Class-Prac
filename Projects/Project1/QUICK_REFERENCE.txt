@@ -1,0 +1,128 @@
+╔══════════════════════════════════════════════════════════════════╗
+║         PORTFOLIO WEB APP - QUICK REFERENCE CARD                 ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📍 YOUR CONFIGURATION:
+─────────────────────────────────────────────────────────────────
+IP Address:        172.28.10.63
+Custom Domain:     portfolio.com
+Project Location:  /Users/ragnar/Documents/COD LANG/FTW/Projects/Project1
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 STARTING THE SERVER:
+
+Development Mode (Port 5001):
+   cd "/Users/ragnar/Documents/COD LANG/FTW/Projects/Project1"
+   ./start.sh
+
+Production Mode (Port 80 - Requires sudo):
+   cd "/Users/ragnar/Documents/COD LANG/FTW/Projects/Project1"
+   ./start-production.sh
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🌐 ACCESS URLS:
+
+Development Mode (Port 5001):
+   ✓ http://portfolio.com:5001
+   ✓ http://172.28.10.63:5001
+   ✓ http://localhost:5001
+
+Production Mode (Port 80):
+   ✓ http://portfolio.com          ← Clean URL!
+   ✓ http://172.28.10.63
+   ✓ http://localhost
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📱 FROM OTHER DEVICES (Same Wi-Fi):
+
+Development Mode:  http://172.28.10.63:5001
+Production Mode:   http://172.28.10.63
+
+Note: Use IP address, not portfolio.com (unless you edit their hosts file)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔧 COMMON COMMANDS:
+
+Stop Server:
+   Press Ctrl + C
+
+Check Your IP:
+   ifconfig | grep "inet " | grep -v 127.0.0.1
+
+Edit Hosts File:
+   sudo nano /etc/hosts
+   Add line: 172.28.10.63 portfolio.com
+
+Flush DNS Cache:
+   sudo dscacheutil -flushcache
+   sudo killall -HUP mDNSResponder
+
+Test DNS Resolution:
+   ping portfolio.com
+
+Check What's Running:
+   lsof -i :80        # Check port 80
+   lsof -i :5001      # Check port 5001
+
+View Hosts File:
+   cat /etc/hosts
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔥 TROUBLESHOOTING:
+
+"Address already in use" (Port 80):
+   sudo lsof -i :80
+   sudo apachectl stop
+
+"Address already in use" (Port 5001):
+   lsof -i :5001
+   kill -9 <PID>
+
+Can't access via portfolio.com:
+   1. Check: cat /etc/hosts | grep portfolio
+   2. Flush: sudo dscacheutil -flushcache
+   3. Test: ping portfolio.com
+
+Connection refused from other devices:
+   1. Check firewall settings
+   2. Verify both on same network
+   3. Server must show "Running on http://0.0.0.0:..."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📄 PAGES:
+
+Home:              /
+Previous Semester: /previous-semester
+Portfolio:         /portfolio
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ CURRENT STATUS:
+
+✓ Hosts file configured (/etc/hosts)
+✓ DNS resolves to 172.28.10.63
+✓ Flask app ready
+✓ Custom domain setup complete
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 PRO TIPS:
+
+• Use Development Mode for daily work (no sudo needed)
+• Use Production Mode to test without port in URL
+• Bookmark http://portfolio.com:5001 for quick access
+• Stop server when not in use
+• If IP changes, update /etc/hosts
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 FULL GUIDE:
+   Read: CUSTOM_DOMAIN_SETUP.md for detailed instructions
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

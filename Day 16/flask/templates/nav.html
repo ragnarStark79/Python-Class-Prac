@@ -1,0 +1,49 @@
+<style>
+  /* Gradient background for navbar (applies at all sizes, including lg) */
+  .navbar-gradient {
+    background: linear-gradient(90deg, #ffecd2 0%, #fcb69f 50%, #a1c4fd 100%);
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-gradient shadow-lg rounded-5 mb-4 mt-3 mx-3">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
+      <img src="{{ url_for('static', filename='images/Console Game.png') }}" alt="Logo" height="32">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for('dashboard')}}">Dashboard</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{{ url_for('market') }}">Market</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+      <!-- <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form> -->
+      <div class="d-flex align-items-center">
+        <a href="{{ url_for('login') }}" class="btn btn-outline-primary me-2">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-primary">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</nav>
