@@ -100,6 +100,11 @@ This repository is organized by **Day X/** folders. Each day contains small exer
 
 - Flask app with templates/static
 
+### Day 18
+
+- Flask app dashboard update: replaced counter with a **stopwatch** (HH:MM:SS) with Start/Pause/Reset
+- Redesigned Day 18 UI to match the Bootstrap webapp style (cards, spacing, consistent layout)
+
 ---
 
 ## Update template (copy/paste for the next day)

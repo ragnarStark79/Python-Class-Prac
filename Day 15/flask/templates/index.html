@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<div style="display: flex; align-items: center; justify-content: center; flex-direction: column; height: 100vh;">
+  <h1 style="color: #333;">Welcome to the Home Page</h1>
+  <p style="color: #666;">This is a simple Flask application demonstrating how to render a template.</p>
+  <div style="text-align: center; margin-top: 10px; display: flex; flex-direction: row; gap: 10px;">
+    <a href="/dashboard" class="btn btn-warning">
+      Dashboard
+    </a>
+    <a href="/about" class="btn btn-warning">
+      About Page
+    </a>
+  </div>
+</div>
+{% endblock %}

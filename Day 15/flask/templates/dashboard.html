@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: calc(100vh - 100px); padding: 20px;">
+  <h1 style="color: #333;">
+    Welcome to the Dashboard, {{ username }}! 🎉
+  </h1>
+
+  <p style="color: #666;">
+    This is your personal dashboard. Only authenticated users can access this page.
+  </p>
+  
+  <!-- Counter Section -->
+  <div style="background-color: white; padding: 40px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-top: 30px; text-align: center; min-width: 300px;">
+    <h3 style="color: #333; margin-bottom: 20px;">Counter</h3>
+    
+    <!-- Display Number -->
+    <div style="background: linear-gradient(135deg, #FF5E7A 0%, #FF3860 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 20px;">
+      <div style="font-size: 3rem; font-weight: bold;" id="counterDisplay">0</div>
+    </div>
+    
+    <!-- Control Buttons -->
+    <div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 20px;">
+      <button onclick="decrementCounter()" class="btn btn-danger btn-lg" style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+        </svg>
+      </button>
+      
+      <button onclick="resetCounter()" class="btn btn-secondary btn-lg" style="padding: 10px 25px; border-radius: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+        Reset
+      </button>
+      
+      <button onclick="incrementCounter()" class="btn btn-success btn-lg" style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Step Control -->
+    <div style="margin-top: 20px;">
+      <label style="color: #666; margin-right: 10px; font-weight: 500;">Step:</label>
+      <input type="number" id="stepValue" value="1" min="1" style="width: 80px; padding: 8px; border: 2px solid #ddd; border-radius: 8px; text-align: center; font-size: 1rem;">
+    </div>
+  </div>
+  
+  <div style="text-align: center; margin-top: 30px; display: flex; flex-direction: row; gap: 10px;">
+    <a href="/" class="btn btn-warning">
+      Home Page
+    </a>
+    <a href="/about" class="btn btn-warning">
+      About Page
+    </a>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Counter value
+  let counter = 0;
+  
+  // Get DOM elements
+  const counterDisplay = document.getElementById('counterDisplay');
+  const stepInput = document.getElementById('stepValue');
+  
+  // Update display function
+  function updateDisplay() {
+    counterDisplay.textContent = counter;
+    
+    // Add animation effect
+    counterDisplay.style.transform = 'scale(1.1)';
+    setTimeout(() => {
+      counterDisplay.style.transform = 'scale(1)';
+    }, 200);
+  }
+  
+  // Increment function
+  function incrementCounter() {
+    const step = parseInt(stepInput.value) || 1;
+    counter += step;
+    updateDisplay();
+  }
+  
+  // Decrement function
+  function decrementCounter() {
+    const step = parseInt(stepInput.value) || 1;
+    counter -= step;
+    updateDisplay();
+  }
+  
+  // Reset function
+  function resetCounter() {
+    counter = 0;
+    updateDisplay();
+  }
+  
+  // Keyboard shortcuts
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      incrementCounter();
+    } else if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      decrementCounter();
+    } else if (event.key === 'r' || event.key === 'R') {
+      resetCounter();
+    }
+  });
+  
+  // Add transition effect to counter display
+  counterDisplay.style.transition = 'transform 0.2s ease';
+</script>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 d-flex align-items-center justify-content-center py-5">
+  <div class="container" style="max-width: 980px;">
+    <div class="row g-4 justify-content-center">
+      <div class="col-12 col-lg-9">
+        <div class="card shadow-sm border-0" style="border-radius: 16px;">
+          <div class="card-body p-4 p-md-5">
+            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 mb-4">
+              <div>
+                <h1 class="h3 mb-1">Dashboard</h1>
+                <p class="text-body-secondary mb-0">Welcome, {{ name }}  {{ profession }}</p>
+                {% if session.get('user_email') %}
+                  <div class="small text-body-secondary mt-1">Signed in as <strong>{{ session.get('user_email') }}</strong></div>
+                {% endif %}
+              </div>
+              <div class="d-flex gap-2">
+                <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">Home</a>
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
+              </div>
+            </div>
+
+            <div class="row g-4">
+              <div class="col-12">
+                <div class="p-4 p-md-5 bg-body-tertiary border rounded-4">
+                  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                    <div>
+                      <h2 class="h5 mb-1">Stopwatch</h2>
+                      <p class="text-body-secondary mb-0">Tracks time in hours, minutes, and seconds.</p>
+                    </div>
+                    <span class="badge text-bg-warning">Day 18</span>
+                  </div>
+
+                  <div class="display-4 fw-semibold text-center my-4" id="stopwatchValue">00:00:00.000</div>
+
+                  <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <button id="stopwatchStart" type="button" class="btn btn-success btn-lg px-4">Start</button>
+                    <button id="stopwatchPause" type="button" class="btn btn-outline-secondary btn-lg px-4">Pause</button>
+                    <button id="stopwatchReset" type="button" class="btn btn-warning btn-lg px-4">Reset</button>
+                  </div>
+
+                  <div class="text-center mt-3">
+                    <small class="text-body-secondary">Tip: Start  Pause keeps time, Reset clears it.</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/counter.js') }}"></script>
+{% endblock %}

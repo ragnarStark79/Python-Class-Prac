@@ -1,0 +1,19 @@
+/* App styles */
+
+:root {
+  --app-bg-1: #fff2d3;
+  --app-bg-2: #ffffff;
+}
+
+body {
+  background: radial-gradient(1200px 600px at 50% 20%, var(--app-bg-1) 40%, var(--app-bg-2) 60%);
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Make big timers look consistent */
+#stopwatchValue {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+}
