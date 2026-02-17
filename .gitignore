@@ -39,3 +39,4 @@ geckodriver*
 # Explicitly ignore these folders (do not push)
 Day 7/
 Day 8/
+Day 19/database/example.db
