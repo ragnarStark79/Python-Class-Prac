@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h2>Secure Bank Dashboard</h2>
+    <h3>Current Balance: ₹{{ balance }}</h3>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.to.label }} {{ form.to() }} <br><br>
+        {{ form.amount.label }} {{ form.amount() }} <br><br>
+        {{ form.submit() }}
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bank</title>
+</head>
+
+<body>
+
+    <h2>Welcome {{ session['user'] }}</h2>
+    <h3>Balance: ₹ {{ balance }}</h3>
+
+    <h3>Transfer Money</h3>
+
+    <form method="POST">
+        <input type="number" name="amount" placeholder="Enter amount">
+        <button type="submit">Transfer</button>
+    </form>
+
+</body>
+
+</html>
