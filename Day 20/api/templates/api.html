@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- SEARCH CONTAINER (Slides Left) -->
+<div id="search-container">
+  <div class="card-modern">
+
+    <!-- Icon & Title -->
+    <div class="text-center mb-4">
+      <div class="hero-icon">🔍</div>
+      <h1 class="fw-bold mb-2">Has your email been <em
+          style="font-style:normal; color:var(--accent-color);">exposed</em>?</h1>
+      <p class="text-muted text-balance">
+        Enter your email address to instantly check if it has appeared in any known data breaches or public paste dumps.
+      </p>
+    </div>
+
+    <!-- Search Form -->
+    <form method="POST" id="breach-form">
+      {{ form.hidden_tag() }}
+
+      <div class="mb-4">
+        <label class="form-label text-uppercase fw-bold text-muted"
+          style="font-size: 0.75rem; letter-spacing: 0.5px;">Email Address</label>
+        {{ form.email(class="form-control form-control-lg", placeholder="you@example.com", autocomplete="off") }}
+
+        {% if form.email.errors %}
+        <div class="mt-2 text-danger small">
+          {% for err in form.email.errors %}
+          ⚠ {{ err }}
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <button type="submit" class="btn btn-primary-soft w-100" id="submit-btn">
+        <span class="btn-text">🔎 &nbsp;Check Now</span>
+        <span class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+      </button>
+    </form>
+
+  </div>
+</div>
+
+<!-- RESULTS CONTAINER (Slides in from Right) -->
+<div id="results-container">
+  {% if email_checked %}
+  {% include 'results_partial.html' ignore missing %}
+  {% endif %}
+</div>
+
+{# Template for JS Injection #}
+{% if email_checked %}
+<div id="server-results-content" style="display:none;">
+  <div class="result-panel">
+
+    <!-- Top Alert -->
+    {% if error == "clean" %}
+    <div class="alert alert-success d-flex align-items-center gap-3 fade-in-up delay-1"
+      style="border:none; background: #E6F4EA; color: #1E4620;">
+      <div class="fs-4">✅</div>
+      <div>
+        <h5 class="alert-heading fw-bold h6 mb-0">Safe! No breaches found.</h5>
+        <p class="mb-0 small opacity-75"><strong>{{ email_checked }}</strong> was not found in our database.</p>
+      </div>
+    </div>
+
+    {% elif error %}
+    <div class="alert alert-warning d-flex align-items-center gap-3 fade-in-up delay-1">
+      <div class="fs-4">⚠️</div>
+      <div>
+        <h5 class="alert-heading fw-bold h6 mb-0">Something went wrong</h5>
+        <p class="mb-0 small opacity-75">{{ error }}</p>
+      </div>
+    </div>
+
+    {% elif response %}
+    {% set breach_list = response.get("breaches", response.get("ExposedBreaches", {}).get("breaches", [])) %}
+    {% set paste_list = response.get("pastes", response.get("ExposedPastes", {}).get("pastes", [])) %}
+    {% set breach_count = breach_list | length if breach_list else 0 %}
+    {% set paste_count = paste_list | length if paste_list else 0 %}
+
+    <!-- Alert Header -->
+    <div class="alert alert-danger d-flex align-items-start gap-3 fade-in-up delay-1"
+      style="background:#FFF5F5; border-color:#FED7D7; color:#C53030;">
+      <div class="fs-4">🚨</div>
+      <div>
+        <h5 class="alert-heading fw-bold h6 mb-1">Breach detected!</h5>
+        <p class="mb-0 small opacity-75">
+          <strong>{{ email_checked }}</strong> was found in <strong>{{ breach_count }}</strong> breaches.
+          Recommended: Change your passwords immediately.
+        </p>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="row g-3 fade-in-up delay-2">
+      <div class="col-4">
+        <div class="p-3 bg-white rounded-4 text-center border h-100 d-flex flex-column justify-content-center"
+          style="box-shadow: 0 2px 5px rgba(0,0,0,0.02)">
+          <div class="display-num text-dark fw-bold mb-1">{{ breach_count }}</div>
+          <div class="small fw-bold text-muted text-uppercase" style="font-size:0.65rem; letter-spacing:0.05em;">
+            Breaches</div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="p-3 bg-white rounded-4 text-center border h-100 d-flex flex-column justify-content-center"
+          style="box-shadow: 0 2px 5px rgba(0,0,0,0.02)">
+          <div class="display-num text-dark fw-bold mb-1">{{ paste_count }}</div>
+          <div class="small fw-bold text-muted text-uppercase" style="font-size:0.65rem; letter-spacing:0.05em;">Pastes
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="p-3 bg-white rounded-4 text-center border h-100 d-flex flex-column justify-content-center"
+          style="box-shadow: 0 2px 5px rgba(0,0,0,0.02)">
+          <div class="display-num text-dark fw-bold mb-1">{{ breach_count + paste_count }}</div>
+          <div class="small fw-bold text-muted text-uppercase" style="font-size:0.65rem; letter-spacing:0.05em;">Hits
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Breaches List (Scrollable Tags) -->
+    {% if breach_count > 0 %}
+    <div class="fade-in-up delay-3">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h6 class="text-uppercase text-muted fw-bold small ps-1 mb-0">Detailed Breach Log</h6>
+        <span class="badge bg-light text-dark border">{{ breach_count }} found</span>
+      </div>
+
+      <div class="card p-3 rounded-4 border-0"
+        style="background: #FFFFFF; box-shadow: inset 0 0 10px rgba(0,0,0,0.01);">
+        <div class="scrollable-content">
+          <div class="d-flex flex-wrap gap-2">
+            {% for breach in breach_list %}
+            {% if breach is mapping %}
+            <div class="breach-tag" title="{{ breach.get('BreachDate') }}">
+              <span class="dot"></span>
+              {{ breach.get("Name") or "Unknown" }}
+            </div>
+            {% else %}
+            <div class="breach-tag">
+              <span class="dot"></span>
+              {{ breach }}
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Pastes List -->
+    {% if paste_count > 0 %}
+    <div class="fade-in-up delay-4">
+      <h6 class="text-uppercase text-muted fw-bold small mb-2 ps-1">Paste Dumps</h6>
+      <ul class="list-group list-group-flush rounded-4 overflow-hidden border">
+        {% for paste in paste_list %}
+        <li class="list-group-item px-3 py-2 small text-muted d-flex align-items-center gap-2">
+          <span>📄</span>
+          {% if paste is mapping %}
+          {{ paste.get("Source") or "Unknown" }} <span class="opacity-50">&bull; {{ paste.get("Date") }}</span>
+          {% else %}
+          {{ paste }}
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <!-- Raw Data -->
+    <div class="fade-in-up delay-4">
+      <details class="small">
+        <summary class="text-muted cursor-pointer mb-2 font-monospace" style="font-size:0.8rem;">View raw API response
+        </summary>
+        <div class="api-raw-container">
+          <pre class="m-0 text-muted"
+            style="font-size:0.75rem; white-space: pre-wrap; word-break: break-all;">{{ response | tojson(indent=2) }}</pre>
+        </div>
+      </details>
+    </div>
+
+    {% endif %}
+
+    <!-- Search Again Button -->
+    <div class="text-center fade-in-up delay-3">
+      <button class="btn btn-sm btn-link text-muted text-decoration-none" onclick="resetSearch()"
+        style="font-size: 0.9rem;">
+        ← Search another email
+      </button>
+    </div>
+
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block script %}
+<script>
+  // Handle Server-Side Render (if page reloaded with POST data)
+  document.addEventListener("DOMContentLoaded", function () {
+    const serverResults = document.getElementById('server-results-content');
+    if (serverResults) {
+      // Move content to content container
+      const container = document.getElementById('results-container');
+      container.innerHTML = serverResults.innerHTML;
+      // Trigger animation state
+      setTimeout(() => {
+        document.body.classList.add('search-active');
+      }, 100);
+    }
+  });
+
+  // Handle JS Submission
+  document.getElementById('breach-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const form = this;
+    const btn = document.getElementById('submit-btn');
+    const spinner = btn.querySelector('.spinner-border');
+    const btnText = btn.querySelector('.btn-text');
+    const emailInput = form.querySelector('input[name="email"]');
+
+    if (!emailInput.value) return;
+
+    // Loading State
+    btn.disabled = true;
+    spinner.classList.remove('d-none');
+    btnText.style.opacity = '0.5';
+
+    // FormData
+    const formData = new FormData(form);
+
+    // Fetch
+    fetch('/', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.text())
+      .then(html => {
+        // Parse Response
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        // Extract specific result content
+        // We look for #server-results-content in the response
+        const resultData = doc.getElementById('server-results-content');
+
+        if (resultData) {
+          // Inject
+          const container = document.getElementById('results-container');
+          container.innerHTML = resultData.innerHTML;
+
+          // Trigger Animations
+          document.body.classList.add('search-active');
+        } else {
+          alert("Error parsing results.");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Something went wrong with the request.");
+      })
+      .finally(() => {
+        // Reset Button
+        btn.disabled = false;
+        spinner.classList.add('d-none');
+        btnText.style.opacity = '1';
+      });
+  });
+
+  function resetSearch() {
+    document.body.classList.remove('search-active');
+    // Clear results after animation slightly
+    setTimeout(() => {
+      document.getElementById('results-container').innerHTML = '';
+      document.querySelector('input[name="email"]').value = '';
+      document.querySelector('input[name="email"]').focus();
+    }, 600);
+  }
+</script>
+{% endblock %}

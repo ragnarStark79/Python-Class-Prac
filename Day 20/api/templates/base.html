@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}BreachRadar{% endblock %}</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Premium Soft Warm Palette */
+      --bg-color: #F5F5F2;
+      /* Warm Stone Grey */
+      --surface-color: #FFFFFF;
+      /* Crisp White */
+      --text-main: #2C2C2E;
+      /* Soft Charcoal */
+      --text-muted: #8E8E93;
+      /* Warm Grey Text */
+      --accent-color: #5E6AD2;
+      /* Muted Slate Blue */
+      --accent-hover: #4B55AA;
+      /* Darker Slate */
+      --danger-color: #E05260;
+      /* Soft Coral Red */
+      --success-color: #34C759;
+      /* Soft Green */
+      --warning-color: #FF9F0A;
+      /* Soft Orange */
+
+      --border-radius: 16px;
+      /* Ultra-soft diffused shadow */
+      --card-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05), 0 0 2px rgba(0, 0, 0, 0.02);
+
+      --transition-speed: 0.4s;
+      --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1.0);
+      /* Ease-in-out smooth */
+    }
+
+    body {
+      background-color: var(--bg-color);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: var(--text-main);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Navbar - Glassmorphism */
+    .navbar {
+      background: rgba(245, 245, 242, 0.85);
+      /* Matches bg color but translucent */
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .navbar-brand {
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-main);
+      font-size: 1.05rem;
+    }
+
+    /* Main Layout */
+    main {
+      flex: 1;
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      /* Vertically center initial state */
+      padding: 2rem 5%;
+      /* Use percentage padding */
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      gap: 5%;
+      /* Gap between Flex Items */
+      transition: all 0.5s ease;
+    }
+
+    /* When active, align to top/start so content grows down */
+    body.search-active main {
+      align-items: flex-start;
+      padding-top: 5rem;
+      /* If we want to vertically center, we can keep align-items center, 
+          but usually for long content top align is safer */
+    }
+
+    /* PREMIUM CARD BASE */
+    .card-modern {
+      background: var(--surface-color);
+      border: 1px solid rgba(0, 0, 0, 0.02);
+      border-radius: var(--border-radius);
+      box-shadow: var(--card-shadow);
+      padding: 3rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* FORM INPUTS */
+    .form-control-lg {
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background-color: #F2F2F7;
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .form-control-lg:focus {
+      background-color: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.15);
+      border-color: var(--accent-color);
+    }
+
+    .form-control-lg::placeholder {
+      color: #AEAEB2;
+    }
+
+    /* BUTTONS */
+    .btn-primary-soft {
+      background-color: var(--text-main);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary-soft:hover {
+      background-color: #000000;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.2);
+      color: white;
+    }
+
+    .btn-primary-soft:disabled {
+      background-color: #C7C7CC;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* ANIMATION & LAYOUT STATES (FLEXBOX) */
+
+    /* Search Container */
+    #search-container {
+      width: 100%;
+      max-width: 500px;
+      transition: all 0.6s var(--ease-smooth);
+      /* Default: It takes natural space, centered by flex-parent */
+    }
+
+    /* Active State: Shrinks and moves to left in flex flow */
+    body.search-active #search-container {
+      width: 35%;
+      /* Becomes 35% of container */
+      max-width: none;
+      margin: 0;
+      /* Reset auto margins */
+    }
+
+    /* Results Container: Starts hidden width 0 */
+    #results-container {
+      width: 0;
+      /* Hidden in flex stream */
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+      visibility: hidden;
+      overflow: hidden;
+      /* Hide content while width is 0 */
+      transition: all 0.6s var(--ease-smooth);
+    }
+
+    /* Active State: Grows to take space */
+    body.search-active #results-container {
+      width: 60%;
+      /* Takes remaining space minus gap */
+      opacity: 1;
+      visibility: visible;
+      overflow: visible;
+      /* Allow content like shadows to show */
+      padding-bottom: 2rem;
+      /* Spacing for footer */
+    }
+
+    /* Flex Column Wrapper for Results */
+    .result-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* MOBILE RESPONSIVENESS */
+    @media (max-width: 991px) {
+
+      main {
+        display: block;
+        /* Stack vertically */
+        padding: 4rem 1.5rem;
+      }
+
+      /* Reset Search Container */
+      #search-container {
+        width: 100% !important;
+        max-width: 500px !important;
+        margin: 0 auto 2rem auto;
+      }
+
+      body.search-active #search-container {
+        /* Keep it centered on mobile active */
+        width: 100%;
+      }
+
+      /* Results Container Mobile */
+      #results-container {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        display: none;
+        /* remove from flow entirely when inactive on mobile to avoid spacing issues */
+      }
+
+      body.search-active #results-container {
+        display: block;
+        width: 100%;
+        animation: fadeInMobile 0.6s ease forwards;
+      }
+    }
+
+    @keyframes fadeInMobile {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+    /* SCROLLBAR & LIST STYLES */
+    /* Container for Raw API Response */
+    .api-raw-container {
+      max-height: 300px;
+      overflow-y: auto;
+      background: #F9F9F9;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+      padding: 1rem;
+    }
+
+    /* Custom Scrollbar for results */
+    .scrollable-content {
+      max-height: 280px;
+      /* Constrained height as requested */
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+
+    .scrollable-content::-webkit-scrollbar,
+    .api-raw-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .scrollable-content::-webkit-scrollbar-track,
+    #results-container::-webkit-scrollbar-track,
+    .api-raw-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .scrollable-content::-webkit-scrollbar-thumb,
+    #results-container::-webkit-scrollbar-thumb,
+    .api-raw-container::-webkit-scrollbar-thumb {
+      background: #D1D1D6;
+      border-radius: 10px;
+    }
+
+    .scrollable-content::-webkit-scrollbar-thumb:hover,
+    #results-container::-webkit-scrollbar-thumb:hover,
+    .api-raw-container::-webkit-scrollbar-thumb:hover {
+      background: #AEAEB2;
+    }
+
+
+    /* Badge/Tag Styles */
+    .breach-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.4rem 0.8rem;
+      background: #FFFFFF;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+      /* Soft square */
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-main);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+      transition: all 0.2s;
+    }
+
+    .breach-tag:hover {
+      border-color: var(--accent-color);
+      transform: translateY(-1px);
+    }
+
+    .breach-tag .dot {
+      width: 6px;
+      height: 6px;
+      background: var(--danger-color);
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    /* Animations */
+    .fade-in-up {
+      opacity: 0;
+      transform: translateY(15px);
+      animation: fadeInUp 0.5s var(--ease-smooth) forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .delay-1 {
+      animation-delay: 0.15s;
+    }
+
+    .delay-2 {
+      animation-delay: 0.25s;
+    }
+
+    .delay-3 {
+      animation-delay: 0.35s;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* Typography Helpers */
+    .text-balance {
+      text-wrap: balance;
+    }
+
+    .display-num {
+      font-size: 2.2rem;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar fixed-top">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <span>🛡️</span> BreachRadar <span class="badge bg-primary rounded-pill"
+          style="font-size: 0.6em; vertical-align: middle;">LIVE</span>
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <div class="container">
+      Powered by <strong>XposedOrNot API</strong> &mdash; Data is for informational purposes only.
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  {% block script %}{% endblock %}
+</body>
+
+</html>
