@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
+instance/
+*.db
 
 # Packaging / build
 build/
@@ -42,3 +44,4 @@ Day 8/
 Day 19/database/example.db
 Day 20/flask/csrf 3066c02cdba980a59cfde2dea62c3885.md
 Day 20/flask/wtf 3066c02cdba980e78f83f3f3e1ecc17f.md
+static/uploads
