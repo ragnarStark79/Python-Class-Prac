@@ -1,0 +1,15 @@
+Flask~=3.1.2
+pytest~=9.0.2
+numpy~=2.4.2
+pyfiglet~=1.0.4
+colorama~=0.4.6
+opencv-python~=4.13.0.90
+cowsay~=6.1
+requests~=2.32.5
+selenium~=4.40.0
+webdriver-manager~=4.0.2
+MarkupSafe~=3.0.3
+Werkzeug~=3.1.5
+Flask-Login~=0.6.3
+WTForms~=3.2.1
+python-dotenv~=1.2.1
