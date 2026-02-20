@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 instance/
 *.db
+*.sqlite3
 
 # Packaging / build
 build/

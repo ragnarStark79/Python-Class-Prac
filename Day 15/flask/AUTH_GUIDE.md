@@ -126,7 +126,7 @@ To make this production-ready, you should:
 
 3. **Add Flask-WTF** for better form handling:
    ```bash
-   pip install flask-wtf
+   pip install pac-wtf
    ```
 
 4. **Add Email Verification**
