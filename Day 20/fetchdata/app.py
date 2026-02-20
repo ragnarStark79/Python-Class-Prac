@@ -34,7 +34,7 @@ class RegisterForm(FlaskForm):
         choices=[("user","User"), ("admin","Admin")])
 
     skills = SelectMultipleField("Skills",
-        choices=[("python","Python"), ("flask","Flask"), ("security","Security")])
+        choices=[("python","Python"), ("pac","Flask"), ("security","Security")])
 
     remember = BooleanField("Remember Me")
 
