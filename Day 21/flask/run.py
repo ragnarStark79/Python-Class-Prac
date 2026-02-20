@@ -1,17 +1,20 @@
 import os
 from flask import Flask, render_template, redirect, url_for
 from werkzeug.utils import secure_filename
+from dotenv import load_dotenv
 
 from models import db, Todo
 from forms import TodoForm
 
+load_dotenv()
+
 app = Flask(__name__)
 
 # Config
-app.config["SECRET_KEY"] = "supersecretkey"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///todo.db"
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "default-secret-key") # Fallback for safety
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///todo.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["UPLOAD_FOLDER"] = "static/uploads"
+app.config["UPLOAD_FOLDER"] = os.getenv("UPLOAD_FOLDER", "static/uploads")
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 db.init_app(app)
@@ -69,4 +72,4 @@ def delete(id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)

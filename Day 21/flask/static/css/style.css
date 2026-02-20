@@ -1,0 +1,344 @@
+:root {
+    /* Palette: Japanese Pedal / Creamy Future */
+    --bg-color: #FDFCF8;        /* Warm Rice Paper */
+    --surface-color: #FFFFFF;   /* Clean Ceramic */
+    --ink-color: #2D2D2D;       /* Soft Black */
+    --muted-color: #8E8E93;     /* Technical Grey */
+    
+    /* Accents */
+    --accent-primary: #5C6B73;  /* Slate Blue/Grey (Knobs) */
+    --accent-highlight: #FF9F89; /* Soft Coral (LEDs/Highlights) */
+    --border-color: #E2E2E0;    /* Subtle separation */
+    
+    /* UI Dimensions */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    
+    --shadow-subtle: 0 4px 20px -5px rgba(45, 45, 45, 0.03), 0 1px 3px rgba(0,0,0,0.02);
+    --shadow-float: 0 12px 30px -10px rgba(45, 45, 45, 0.05);
+    
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--ink-color);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    padding-bottom: 4rem;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+/* --- Layout --- */
+.app-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.header-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(180deg, var(--ink-color) 0%, #555 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.header-subtitle {
+    color: var(--muted-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* --- Control Panel (Form) --- */
+.control-panel {
+    background: var(--surface-color);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-float);
+    border: 1px solid var(--border-color);
+    margin-bottom: 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative "Screw" styling for that pedal look */
+.control-panel::before, .control-panel::after {
+    content: '';
+    position: absolute;
+    width: 8px; height: 8px;
+    background: #E0E0E0;
+    border-radius: 50%;
+    top: 20px;
+    box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+}
+.control-panel::before { left: 20px; }
+.control-panel::after { right: 20px; }
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted-color);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+/* Input Styling */
+input[type="text"], input[type="file"] {
+    width: 100%;
+    padding: 1rem;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--ink-color);
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+input[type="text"]:focus, input[type="file"]:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(92, 107, 115, 0.1);
+}
+
+/* Custom File Input Styling */
+input[type="file"] {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+}
+
+/* Image Preview Box */
+.preview-container {
+    width: 100%;
+    height: 0; /* Auto expands */
+    max-height: 0;
+    background: #F2F2F0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.preview-container.active {
+    margin-bottom: 1.5rem;
+    max-height: 300px;
+    height: auto;
+    border: 1px solid var(--border-color);
+}
+
+.preview-img {
+    max-width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+    display: block;
+}
+
+.preview-label {
+    position: absolute;
+    bottom: 10px; right: 10px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* Submit Button */
+input[type="submit"] {
+    width: 100%;
+    background: var(--ink-color);
+    color: white;
+    border: none;
+    padding: 1.25rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+input[type="submit"]:hover {
+    background: var(--accent-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px -5px rgba(0,0,0,0.1);
+}
+
+/* --- Task Grid --- */
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.task-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.task-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-subtle);
+    border-color: var(--accent-highlight);
+}
+
+.card-image-wrap {
+    width: 100%;
+    height: 200px;
+    background: #F7F7F7;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in; /* Indicate clickable */
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.task-card:hover .card-img {
+    transform: scale(1.05);
+}
+
+.card-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+    color: var(--ink-color);
+}
+
+.btn-delete {
+    margin-top: auto;
+    align-self: flex-start;
+    background: transparent;
+    color: #FF5A5A;
+    border: 1px solid #FFEDEA;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    background: #FFF0EE;
+    border-color: #FF5A5A;
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem;
+    color: var(--muted-color);
+    font-family: var(--font-display);
+}
+
+/* --- Image Modal (Lightbox) --- */
+.image-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(253, 252, 248, 0.9); /* Cream opacity */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.image-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.image-modal.active .modal-content {
+    transform: scale(1);
+}
+
+.close-modal {
+    position: absolute;
+    top: 2rem; right: 2rem;
+    background: var(--ink-color);
+    color: white;
+    border: none;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: transform 0.2s ease, background 0.2s ease;
+    z-index: 1010;
+}
+
+.close-modal:hover {
+    transform: scale(1.1) rotate(90deg);
+    background: var(--accent-highlight);
+}
