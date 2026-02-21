@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Create Blog Post</h2>
+
+<div class="card bg-secondary p-4">
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.title(class="form-control mb-3", placeholder="Post title") }}
+        {% for error in form.title.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+
+        {{ form.content(class="form-control mb-3", rows="6", placeholder="Write blog...") }}
+        {% for error in form.content.errors %}
+        <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+
+        {{ form.submit(class="btn btn-success") }}
+    </form>
+</div>
+
+{% endblock %}

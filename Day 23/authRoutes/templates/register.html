@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+
+        <div class="card bg-secondary p-4">
+            <h3 class="text-center mb-3">Register</h3>
+
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                {{ form.username(class="form-control mb-3", placeholder="Username") }}
+                {% for error in form.username.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+
+                {{ form.email(class="form-control mb-3", placeholder="Email") }}
+                {% for error in form.email.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+
+                {{ form.password(class="form-control mb-3", placeholder="Password") }}
+                {% for error in form.password.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+
+                {{ form.confirm_password(class="form-control mb-3", placeholder="Confirm Password") }}
+                {% for error in form.confirm_password.errors %}
+                <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+
+                <!-- ROLE SELECT -->
+                {{ form.role(class="form-control mb-3") }}
+
+                {{ form.submit(class="btn btn-success w-100") }}
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

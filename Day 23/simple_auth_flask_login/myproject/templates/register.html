@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5 animate-fade-up d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="card card-custom border-0 w-100" style="max-width: 550px;">
+        <div class="text-center mb-4">
+            <div class="d-inline-flex justify-content-center align-items-center mb-3 rounded-circle"
+                style="width: 60px; height: 60px; background-color: rgba(212, 163, 115, 0.1);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                    stroke="var(--accent-caramel)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="8.5" cy="7" r="4"></circle>
+                    <line x1="20" y1="8" x2="20" y2="14"></line>
+                    <line x1="23" y1="11" x2="17" y2="11"></line>
+                </svg>
+            </div>
+            <h2 class="fw-bold">Create Account</h2>
+            <p class="text-muted">Join AuthFlow and experience the difference.</p>
+        </div>
+
+        <form method="post" class="needs-validation" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form.username.label(class="form-label") }}
+                    {{ form.username(class="form-control form-control-custom", placeholder="Username") }}
+                    {% for error in form.username.errors %}
+                    <div class="text-danger mt-1 small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-6 mb-3">
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-control form-control-custom", placeholder="name@example.com") }}
+                    {% for error in form.email.errors %}
+                    <div class="text-danger mt-1 small">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                {{ form.password.label(class="form-label") }}
+                {{ form.password(class="form-control form-control-custom", placeholder="Create a strong password") }}
+                {% for error in form.password.errors %}
+                <div class="text-danger mt-1 small">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="mb-4">
+                {{ form.pass_confirm.label(class="form-label") }}
+                {{ form.pass_confirm(class="form-control form-control-custom", placeholder="Confirm your password") }}
+                {% for error in form.pass_confirm.errors %}
+                <div class="text-danger mt-1 small">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="d-grid mt-4">
+                {{ form.submit(class="btn btn-custom-primary btn-lg", value="Register Now") }}
+            </div>
+
+            <div class="text-center mt-4 pt-2">
+                <p class="text-muted small">By registering you agree to our <a href="#"
+                        style="color: var(--accent-sage);">Terms of Service</a></p>
+                <hr style="border-color: var(--border-color);">
+                <p class="text-muted small mb-0">Already have an account? <a href="{{ url_for('login') }}"
+                        style="color: var(--accent-sage); font-weight: 600;">Sign In</a></p>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

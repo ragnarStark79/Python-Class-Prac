@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>👨‍💻 Author Dashboard</h2>
+
+<a href="/create" class="btn btn-success mb-3">+ Create Post</a>
+
+<div class="row">
+    {% for post in posts %}
+    <div class="col-md-12">
+        <div class="card bg-secondary mb-3 p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4>{{ post.title }}</h4>
+                    <p>{{ post.content }}</p>
+                    <small class="text-white-50">{{ post.date.strftime('%Y-%m-%d') }}</small>
+                </div>
+                <a href="/delete/{{ post.id }}" class="btn btn-danger btn-sm"
+                    onclick="return confirm('Are you sure you want to delete this post?');">Delete</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p>No posts created yet.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
