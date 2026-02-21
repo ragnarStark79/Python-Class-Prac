@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card bg-secondary shadow">
+    <div class="card-body">
+        <h1 class="card-title display-4">{{ post.title }}</h1>
+        <p class="text-white-50">
+            Written by <strong>{{ post.author.username }}</strong> on {{ post.date.strftime('%d %B %Y') }}
+        </p>
+        <hr>
+        <div class="card-text mt-4 content-full">
+            {{ post.content }}
+        </div>
+
+        <div class="mt-5">
+            <a href="/user_dashboard" class="btn btn-outline-light">← Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .content-full {
+        font-size: 1.1em;
+        line-height: 1.6;
+        white-space: pre-wrap;
+    }
+</style>
+
+{% endblock %}

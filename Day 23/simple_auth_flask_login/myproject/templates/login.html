@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5 animate-fade-up d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="card card-custom border-0 w-100" style="max-width: 480px;">
+        <div class="text-center mb-4">
+            <div class="d-inline-flex justify-content-center align-items-center mb-3 rounded-circle"
+                style="width: 60px; height: 60px; background-color: rgba(143, 159, 140, 0.1);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                    stroke="var(--accent-sage)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                    <polyline points="10 17 15 12 10 7"></polyline>
+                    <line x1="15" y1="12" x2="3" y2="12"></line>
+                </svg>
+            </div>
+            <h2 class="fw-bold">Welcome Back</h2>
+            <p class="text-muted">Sign in to continue to AuthFlow.</p>
+        </div>
+
+        <form method="post" class="needs-validation" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="mb-4">
+                {{ form.email.label(class="form-label") }}
+                {{ form.email(class="form-control form-control-custom", placeholder="name@example.com") }}
+                {% for error in form.email.errors %}
+                <div class="text-danger mt-1 small">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="mb-4">
+                <div class="d-flex justify-content-between">
+                    {{ form.password.label(class="form-label") }}
+                    <a href="#" class="small text-muted" style="text-decoration: none;">Forgot password?</a>
+                </div>
+                {{ form.password(class="form-control form-control-custom", placeholder="Enter your password") }}
+                {% for error in form.password.errors %}
+                <div class="text-danger mt-1 small">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="d-grid mt-5">
+                {{ form.submit(class="btn btn-custom-primary btn-lg", value="Sign In") }}
+            </div>
+        </form>
+
+        <div class="text-center mt-4">
+            <p class="text-muted small">Don't have an account? <a href="{{ url_for('register') }}"
+                    style="color: var(--accent-sage); font-weight: 600;">Register here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

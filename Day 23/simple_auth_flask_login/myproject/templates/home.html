@@ -1,0 +1,98 @@
+git {% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5 animate-fade-up">
+    <div class="row align-items-center mb-5">
+        <div class="col-lg-6 mb-4 mb-lg-0 pe-lg-5">
+            <span class="badge bg-light text-dark border px-3 py-2 rounded-pill mb-3"
+                style="font-weight: 500; font-size: 0.85rem; border-color: var(--border-color)!important;">
+                ✨ Modern Authorization Redefined
+            </span>
+            <h1 class="display-3 fw-bold mb-4" style="line-height: 1.1; letter-spacing: -1.5px;">
+                Secure Access,<br>
+                <span style="color: var(--accent-sage);">Seamless Experience</span>
+            </h1>
+            <p class="lead text-muted mb-5" style="font-size: 1.15rem; max-width: 500px;">
+                Welcome to AuthFlow. A beautifully designed, calm, and professional interface built on Flask and
+                SQLAlchemy. Experience smooth transitions and robust authentication out of the box.
+            </p>
+
+            <div class="d-flex flex-wrap gap-3">
+                {% if current_user.is_authenticated %}
+                <a class="btn btn-custom-primary btn-lg px-4" href="{{ url_for('welcome_user') }}">Go to Dashboard</a>
+                {% else %}
+                <a class="btn btn-custom-primary btn-lg px-4" href="{{ url_for('register') }}">Create an Account</a>
+                <a class="btn btn-custom-outline btn-lg px-4" href="{{ url_for('login') }}">Sign In</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Hero Graphic Placeholder -->
+        <div class="col-lg-6 animate-fade-up delay-2">
+            <div class="card card-custom border-0 p-0 overflow-hidden"
+                style="min-height: 400px; background: linear-gradient(135deg, #f0eee9 0%, #ffffff 100%);">
+                <div class="p-5 d-flex flex-column h-100 justify-content-center text-center">
+                    <div class="mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 24 24" fill="none"
+                            stroke="#d4a373" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="fw-bold mb-3">Enterprise Grade Security</h3>
+                    <p class="text-muted mx-auto" style="max-width: 300px;">Your credentials are hashed using modern
+                        cryptographic algorithms ensuring your data is safe with us.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mt-5 pt-5 animate-fade-up delay-3">
+        <div class="col-md-4 mb-4">
+            <div class="p-4 rounded-4" style="background-color: var(--surface); box-shadow: var(--shadow-soft);">
+                <div class="mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                        stroke="var(--accent-sage)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <h5 class="fw-bold">Fast Reliability</h5>
+                <p class="text-muted mb-0" style="font-size: 0.95rem;">Powered by Flask, routing is instantaneous and
+                    requests are handled gracefully.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="p-4 rounded-4" style="background-color: var(--surface); box-shadow: var(--shadow-soft);">
+                <div class="mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                        stroke="var(--accent-caramel)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                </div>
+                <h5 class="fw-bold">Calm Aesthetics</h5>
+                <p class="text-muted mb-0" style="font-size: 0.95rem;">A thoughtfully curated creamy color palette that
+                    reduces eye strain and looks professional.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="p-4 rounded-4" style="background-color: var(--surface); box-shadow: var(--shadow-soft);">
+                <div class="mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                        stroke="var(--accent-sage)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                    </svg>
+                </div>
+                <h5 class="fw-bold">Fluid Animations</h5>
+                <p class="text-muted mb-0" style="font-size: 0.95rem;">Skeleton loading and micro-interactions make the
+                    platform feel alive and responsive.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

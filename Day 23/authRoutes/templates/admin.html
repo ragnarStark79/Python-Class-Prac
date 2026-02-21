@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>🛠️ Admin Panel</h2>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <h4 class="mb-3">Manage Posts by Author</h4>
+
+        <div class="accordion" id="accordionAuthors">
+            {% for user in users %}
+            {% if user.posts %} <!-- Only show users who have posts -->
+            <div class="accordion-item bg-dark border-secondary">
+                <h2 class="accordion-header" id="heading{{ user.id }}">
+                    <button class="accordion-button collapsed bg-secondary text-white" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapse{{ user.id }}" aria-expanded="false"
+                        aria-controls="collapse{{ user.id }}">
+                        👤 {{ user.username }} ({{ user.email }}) - <strong>{{ user.posts|length }} Posts</strong>
+                    </button>
+                </h2>
+                <div id="collapse{{ user.id }}" class="accordion-collapse collapse"
+                    aria-labelledby="heading{{ user.id }}" data-bs-parent="#accordionAuthors">
+                    <div class="accordion-body bg-black">
+                        <ul class="list-group list-group-flush">
+                            {% for post in user.posts %}
+                            <li
+                                class="list-group-item bg-black text-white border-secondary d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>{{ post.title }}</strong>
+                                    <small class="text-muted d-block">{{ post.date.strftime('%Y-%m-%d') }}</small>
+                                </span>
+                                <a href="/delete/{{ post.id }}" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Delete this post?');">Delete</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+            <p>No authors found with posts.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <h4>Manage Users (All)</h4>
+        <table class="table table-dark table-striped mt-2">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>
+                        {% if user.role != "admin" %}
+                        <a href="/delete_user/{{ user.id }}" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Delete this user?');">Delete User</a>
+                        {% else %}
+                        <span class="badge bg-warning text-dark">Admin</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

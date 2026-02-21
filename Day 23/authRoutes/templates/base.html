@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Flask Blog</title>
+
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-dark text-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container">
+            <span class="navbar-brand mb-0 h1">My Blog</span>
+
+            <div>
+                {% if current_user.is_authenticated %}
+                <span class="navbar-text me-3 text-white">
+                    Logged in as: <strong>{{ current_user.email }}</strong> ({{ current_user.role }})
+                </span>
+
+                {% if current_user.role == "admin" %}
+                <a class="btn btn-warning me-2" href="/admin_dashboard">Admin Dashboard</a>
+                {% elif current_user.role == "author" %}
+                <a class="btn btn-success me-2" href="/author_dashboard">Author Dashboard</a>
+                {% elif current_user.role == "user" %}
+                <a class="btn btn-primary me-2" href="/user_dashboard">User Dashboard</a>
+                {% endif %}
+
+                <a class="btn btn-danger" href="/logout">Logout</a>
+                {% else %}
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
